@@ -4,53 +4,296 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Vishanth Ashok</title>
-  <link rel="stylesheet" href="styles.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --panel: rgba(255, 255, 255, 0.05);
+      --text: #e6eaf0;
+      --muted: #9aa4b2;
+      --accent: #4f8cff;
+      --accent-soft: rgba(79, 140, 255, 0.15);
+      --border: rgba(255,255,255,0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background:
+        radial-gradient(1200px 600px at 10% -10%, rgba(79,140,255,0.15), transparent),
+        radial-gradient(800px 400px at 90% 10%, rgba(120,200,255,0.08), transparent),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* Layout */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 64px 24px;
+    }
+
+    section {
+      margin-bottom: 80px;
+    }
+
+    /* Hero */
+    .hero {
+      display: grid;
+      gap: 24px;
+      margin-bottom: 120px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.8rem, 6vw, 4.5rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 640px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-weight: 500;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      backdrop-filter: blur(12px);
+      transition: all 0.25s ease;
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, var(--accent), #7aa8ff);
+      color: #05070a;
+      border: none;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    }
+
+    /* Section headers */
+    h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    .subtle {
+      color: var(--muted);
+      max-width: 700px;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      backdrop-filter: blur(14px);
+    }
+
+    .grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .grid.two {
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+
+    /* Experience */
+    .role {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .role-title {
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+
+    .role-org {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .role-desc {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-top: 6px;
+    }
+
+    /* Skills */
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .skill {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #cfe0ff;
+      font-size: 0.85rem;
+      border: 1px solid rgba(79,140,255,0.25);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+  </style>
 </head>
 <body>
 
-  <!-- HERO -->
-  <header class="hero">
-    <div class="hero-content">
+  <main class="container">
+
+    <!-- HERO -->
+    <section class="hero">
       <h1>Vishanth Ashok</h1>
-      <p>Economics · Finance · Strategy</p>
-    </div>
-  </header>
+      <p>
+        Economics student at UT Austin with hands-on experience in private equity,
+        hedge funds, and investment banking. Focused on disciplined analysis,
+        long-term thinking, and high-conviction decision-making.
+      </p>
 
-  <!-- ABOUT -->
-  <section class="section">
-    <h2>About</h2>
-    <p>
-      I’m an Economics student at The University of Texas at Austin with experience across
-      private equity, hedge funds, and investment banking. I’m focused on long-term thinking,
-      clean execution, and disciplined analysis.
-    </p>
-  </section>
+      <div class="hero-actions">
+        <a class="btn primary" href="#" target="_blank">View Resume (PDF)</a>
+        <a class="btn" href="https://linkedin.com/in/vishanth-ashok" target="_blank">LinkedIn</a>
+        <a class="btn" href="mailto:vishanthashok@gmail.com">Email</a>
+      </div>
+    </section>
 
-  <!-- EXPERIENCE -->
-  <section class="section muted">
-    <h2>Experience</h2>
-    <ul>
-      <li>Investment Banking Analyst Intern — Independent Investment Bankers Corp.</li>
-      <li>Strategy Intern — Evermount Partners</li>
-      <li>Investment Analyst Intern — PNTHR Funds</li>
-      <li>Private Equity Analyst — Fund Launch Partners</li>
-    </ul>
-  </section>
+    <!-- ABOUT -->
+    <section>
+      <h2>About</h2>
+      <p class="subtle">
+        I’m a Bachelor of Science in Economics candidate at The University of Texas at Austin,
+        pursuing minors in Finance and Entrepreneurship. My experience spans digital
+        infrastructure private equity, long/short equity investing, real estate private equity,
+        and investment banking. I enjoy building models, asking first-principles questions,
+        and translating complexity into clear investment decisions.
+      </p>
+    </section>
 
-  <!-- CONTACT -->
-  <section class="section">
-    <h2>Contact</h2>
-    <p>
-      Email: <a href="mailto:vishanthashok@gmail.com">vishanthashok@gmail.com</a><br/>
-      LinkedIn: <a href="https://linkedin.com/in/vishanth-ashok" target="_blank">vishanth-ashok</a>
-    </p>
-  </section>
+    <!-- EXPERIENCE -->
+    <section>
+      <h2>Experience</h2>
+
+      <div class="grid two">
+        <div class="card role">
+          <div class="role-title">Investment Banking Analyst</div>
+          <div class="role-org">Independent Investment Banking Corp.</div>
+          <div class="role-desc">
+            Supporting transaction analysis, valuation work, and deal materials
+            across middle-market engagements.
+          </div>
+        </div>
+
+        <div class="card role">
+          <div class="role-title">Transactions & Strategy Intern</div>
+          <div class="role-org">Evermount Partners</div>
+          <div class="role-desc">
+            Buy-side diligence for digital infrastructure investments, including
+            data centers, market research, and financial analysis.
+          </div>
+        </div>
+
+        <div class="card role">
+          <div class="role-title">Investment Analyst Intern</div>
+          <div class="role-org">PNTHR Funds</div>
+          <div class="role-desc">
+            Long/short equity research, Python and SQL-driven reporting automation,
+            and investment memo development across multiple sectors.
+          </div>
+        </div>
+
+        <div class="card role">
+          <div class="role-title">Private Equity Intern</div>
+          <div class="role-org">Fund Launch Partners</div>
+          <div class="role-desc">
+            Multi-sector private equity analysis with a focus on TMT, consumer,
+            and real estate investments.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section>
+      <h2>Skills</h2>
+      <div class="skills">
+        <span class="skill">Financial Modeling</span>
+        <span class="skill">DCF & LBO Analysis</span>
+        <span class="skill">Python (pandas, NumPy)</span>
+        <span class="skill">SQL</span>
+        <span class="skill">Valuation</span>
+        <span class="skill">Due Diligence</span>
+        <span class="skill">Market Research</span>
+        <span class="skill">Power BI</span>
+        <span class="skill">Excel & VBA</span>
+        <span class="skill">Investment Memos</span>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section>
+      <h2>Contact</h2>
+      <p class="subtle">
+        Always open to conversations around investing, strategy, and long-term
+        thinking.
+      </p>
+      <p style="margin-top: 12px;">
+        <a href="mailto:vishanthashok@gmail.com">vishanthashok@gmail.com</a><br/>
+        <a href="https://linkedin.com/in/vishanth-ashok" target="_blank">linkedin.com/in/vishanth-ashok</a>
+      </p>
+    </section>
+
+  </main>
 
   <footer>
     © 2026 Vishanth Ashok
   </footer>
 
-  <script src="script.js"></script>
 </body>
 </html>
