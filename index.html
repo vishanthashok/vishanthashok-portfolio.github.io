@@ -5,508 +5,166 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Vishanth Ashok — Finance & Strategy</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0a0a09;
-      --bg2: #111110;
-      --bg3: #1a1a18;
-      --gold: #c9a84c;
-      --gold-light: #e8c97a;
-      --gold-dim: rgba(201,168,76,0.12);
-      --gold-border: rgba(201,168,76,0.25);
-      --text: #e8e4d9;
-      --muted: #7a756a;
-      --muted2: #4a4640;
-      --white: #f5f2eb;
-      --red: #c0392b;
-      --green: #27ae60;
+      --bg:#0a0a09;--bg2:#111110;--bg3:#1a1a18;
+      --gold:#c9a84c;--gold-light:#e8c97a;--gold-dim:rgba(201,168,76,0.12);--gold-border:rgba(201,168,76,0.25);
+      --text:#e8e4d9;--muted:#7a756a;--muted2:#4a4640;--white:#f5f2eb;--red:#c0392b;--green:#27ae60;
     }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    ::selection{background:var(--gold);color:#0a0a09}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:none}
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    ::selection { background: var(--gold); color: #0a0a09; }
-    html { scroll-behavior: smooth; }
+    #cursor{position:fixed;width:10px;height:10px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .25s,height .25s;mix-blend-mode:difference}
+    #cursor-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(201,168,76,.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s}
+    body:has(a:hover) #cursor,body:has(button:hover) #cursor{width:20px;height:20px}
+    body:has(a:hover) #cursor-ring,body:has(button:hover) #cursor-ring{width:60px;height:60px;border-color:var(--gold)}
 
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      overflow-x: hidden;
-      cursor: none;
-    }
+    .ticker-wrap{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--gold-border);height:36px;overflow:hidden;display:flex;align-items:center}
+    .ticker-inner{display:flex;white-space:nowrap;animation:ticker 35s linear infinite}
+    .ticker-inner span{font-family:'DM Mono',monospace;font-size:.72rem;color:var(--muted);padding:0 28px;letter-spacing:.04em}
+    .ticker-inner span.up{color:var(--green)}.ticker-inner span.down{color:var(--red)}.ticker-inner span.label{color:var(--gold);font-weight:500}
+    @keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
-    /* CURSOR */
-    #cursor {
-      position: fixed;
-      width: 10px; height: 10px;
-      background: var(--gold);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%,-50%);
-      transition: width 0.25s, height 0.25s;
-      mix-blend-mode: difference;
-    }
-    #cursor-ring {
-      position: fixed;
-      width: 36px; height: 36px;
-      border: 1px solid rgba(201,168,76,0.5);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9998;
-      transform: translate(-50%,-50%);
-      transition: width 0.3s, height 0.3s, border-color 0.3s;
-    }
-    body:has(a:hover) #cursor,
-    body:has(button:hover) #cursor { width: 20px; height: 20px; }
-    body:has(a:hover) #cursor-ring,
-    body:has(button:hover) #cursor-ring { width: 60px; height: 60px; border-color: var(--gold); }
+    nav{position:fixed;top:36px;left:0;right:0;z-index:99;padding:18px 48px;display:flex;align-items:center;justify-content:space-between;transition:background .4s,backdrop-filter .4s,border-bottom .4s}
+    nav.scrolled{background:rgba(10,10,9,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--gold-border)}
+    .nav-logo{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--gold-light);letter-spacing:.01em;white-space:nowrap;text-decoration:none}
+    .nav-links{display:flex;gap:28px;list-style:none}
+    .nav-links a{font-family:'DM Mono',monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);text-decoration:none;transition:color .2s;position:relative}
+    .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:1px;background:var(--gold);transform:scaleX(0);transition:transform .25s;transform-origin:left}
+    .nav-links a:hover{color:var(--gold-light)}.nav-links a:hover::after{transform:scaleX(1)}
 
-    /* TICKER */
-    .ticker-wrap {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      background: var(--bg);
-      border-bottom: 1px solid var(--gold-border);
-      height: 36px;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-    }
-    .ticker-inner {
-      display: flex;
-      white-space: nowrap;
-      animation: ticker 35s linear infinite;
-    }
-    .ticker-inner span {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      color: var(--muted);
-      padding: 0 28px;
-      letter-spacing: 0.04em;
-    }
-    .ticker-inner span.up   { color: var(--green); }
-    .ticker-inner span.down { color: var(--red); }
-    .ticker-inner span.label { color: var(--gold); font-weight: 500; }
-    @keyframes ticker {
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
+    section{padding:120px 48px;max-width:1200px;margin:0 auto}
+    .section-label{font-family:'DM Mono',monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:.2em;color:var(--gold);margin-bottom:16px}
+    h2{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,4vw,3.2rem);font-weight:700;letter-spacing:-.02em;line-height:1.15;margin-bottom:32px}
+    .gold-line{width:48px;height:2px;background:var(--gold);margin-bottom:32px}
+    .divider{border:none;border-top:1px solid var(--muted2);max-width:1200px;margin:0 auto}
 
-    /* NAV */
-    nav {
-      position: fixed;
-      top: 36px; left: 0; right: 0;
-      z-index: 99;
-      padding: 18px 48px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      transition: background 0.4s, backdrop-filter 0.4s, border-bottom 0.4s;
-    }
-    nav.scrolled {
-      background: rgba(10,10,9,0.9);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--gold-border);
-    }
-    .nav-logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--gold-light);
-      letter-spacing: 0.01em;
-      white-space: nowrap;
-      text-decoration: none;
-    }
-    .nav-links { display: flex; gap: 32px; list-style: none; }
-    .nav-links a {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 0.2s;
-      position: relative;
-    }
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -4px; left: 0; right: 0;
-      height: 1px;
-      background: var(--gold);
-      transform: scaleX(0);
-      transition: transform 0.25s;
-      transform-origin: left;
-    }
-    .nav-links a:hover { color: var(--gold-light); }
-    .nav-links a:hover::after { transform: scaleX(1); }
+    #hero{min-height:100vh;display:grid;grid-template-columns:1fr 460px;align-items:center;gap:60px;padding-top:120px;padding-bottom:80px;max-width:1200px;margin:0 auto;padding-left:48px;padding-right:48px}
+    .hero-left{display:flex;flex-direction:column}
+    .hero-eyebrow{font-family:'DM Mono',monospace;font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;opacity:0;animation:fadeUp .8s .2s forwards}
+    .hero-name{font-family:'Playfair Display',serif;font-size:clamp(3.5rem,7vw,6.5rem);font-weight:900;letter-spacing:-.04em;line-height:.95;color:var(--white);margin-bottom:16px;opacity:0;animation:fadeUp .9s .35s forwards}
+    .hero-name em{font-style:italic;color:var(--gold-light)}
+    .hero-sub{font-size:1.05rem;color:var(--muted);max-width:540px;line-height:1.75;margin-top:28px;margin-bottom:40px;opacity:0;animation:fadeUp .9s .5s forwards}
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap;opacity:0;animation:fadeUp .9s .65s forwards}
+    .hero-foot{display:flex;align-items:center;gap:16px;margin-top:48px;opacity:0;animation:fadeUp .8s .8s forwards}
+    .hero-foot-bar{width:48px;height:1px;background:var(--gold);flex-shrink:0}
+    .hero-foot span{font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.15em;color:var(--muted);text-transform:uppercase}
+    .hero-right{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;opacity:0;animation:fadeIn 1s .9s forwards}
+    .hero-stat{border:1px solid var(--gold-border);padding:22px 16px;background:var(--gold-dim)}
+    .hero-stat-val{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--gold-light);line-height:1;margin-bottom:8px}
+    .hero-stat-label{font-family:'DM Mono',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
 
-    /* SECTIONS */
-    section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
-    .section-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      color: var(--gold);
-      margin-bottom: 16px;
-    }
-    h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.2rem, 4vw, 3.2rem);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      line-height: 1.15;
-      margin-bottom: 32px;
-    }
-    .gold-line { width: 48px; height: 2px; background: var(--gold); margin-bottom: 32px; }
-    .divider { border: none; border-top: 1px solid var(--muted2); max-width: 1200px; margin: 0 auto; }
+    .btn-primary{display:inline-flex;align-items:center;gap:8px;padding:13px 24px;background:var(--gold);color:#0a0a09;font-family:'DM Mono',monospace;font-size:.75rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;border:none;text-decoration:none;cursor:none;transition:background .25s,transform .25s,box-shadow .25s}
+    .btn-primary:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 12px 40px rgba(201,168,76,.3)}
+    .btn-ghost{display:inline-flex;align-items:center;gap:8px;padding:12px 23px;background:transparent;color:var(--text);font-family:'DM Mono',monospace;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--muted2);text-decoration:none;cursor:none;transition:border-color .25s,color .25s,transform .25s}
+    .btn-ghost:hover{border-color:var(--gold);color:var(--gold-light);transform:translateY(-2px)}
 
-    /* HERO — two column layout */
-    #hero {
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 460px;
-      align-items: center;
-      gap: 60px;
-      padding-top: 120px;
-      padding-bottom: 80px;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding-left: 48px;
-      padding-right: 48px;
-    }
-    .hero-left { display: flex; flex-direction: column; }
+    .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+    .about-body{font-size:1.05rem;line-height:1.85;color:var(--muted)}.about-body strong{color:var(--text);font-weight:500}
+    .fact-row{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--muted2);gap:20px}
+    .fact-row:first-child{border-top:1px solid var(--muted2)}
+    .fact-key{font-family:'DM Mono',monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);flex-shrink:0}
+    .fact-val{font-size:.92rem;color:var(--text);text-align:right}
+    .fact-val.gold{color:var(--gold-light);font-family:'DM Mono',monospace}
 
-    .hero-eyebrow {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.75rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 24px;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.2s forwards;
-    }
-    .hero-name {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(3.5rem, 7vw, 6.5rem);
-      font-weight: 900;
-      letter-spacing: -0.04em;
-      line-height: 0.95;
-      color: var(--white);
-      margin-bottom: 16px;
-      opacity: 0;
-      animation: fadeUp 0.9s 0.35s forwards;
-    }
-    .hero-name em { font-style: italic; color: var(--gold-light); }
+    .exp-tabs{display:flex;border-bottom:1px solid var(--muted2);margin-bottom:48px}
+    .exp-tab{font-family:'DM Mono',monospace;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);padding:14px 24px;cursor:none;border:none;background:none;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .2s,border-color .2s}
+    .exp-tab.active{color:var(--gold-light);border-bottom-color:var(--gold)}.exp-tab:hover{color:var(--text)}
+    .exp-panel{display:none}.exp-panel.active{display:block}
+    .exp-item{display:grid;grid-template-columns:180px 1fr;gap:40px;padding:40px 0;border-bottom:1px solid var(--muted2);opacity:0;transform:translateY(20px);transition:opacity .5s,transform .5s}
+    .exp-item.visible{opacity:1;transform:translateY(0)}
+    .exp-date{font-family:'DM Mono',monospace;font-size:.7rem;color:var(--gold);margin-bottom:6px}
+    .exp-location{font-family:'DM Mono',monospace;font-size:.66rem;color:var(--muted)}
+    .exp-role{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;margin-bottom:4px;color:var(--white)}
+    .exp-org{font-family:'DM Mono',monospace;font-size:.78rem;color:var(--gold);letter-spacing:.06em;margin-bottom:20px}
+    .exp-bullets{list-style:none;display:flex;flex-direction:column;gap:10px}
+    .exp-bullets li{font-size:.93rem;color:var(--muted);line-height:1.65;padding-left:20px;position:relative}
+    .exp-bullets li::before{content:'—';position:absolute;left:0;color:var(--gold);font-family:'DM Mono',monospace}
+    .exp-bullets li strong{color:var(--text);font-weight:500}
+    .txn-block{margin-top:24px;border-left:2px solid var(--gold-border);padding-left:20px}
+    .txn-title{font-family:'DM Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.15em;color:var(--gold);margin-bottom:14px}
+    .txn-item{margin-bottom:16px}
+    .txn-name{font-size:.88rem;font-weight:500;color:var(--text);margin-bottom:8px}
+    .txn-bullets{list-style:none;display:flex;flex-direction:column;gap:6px}
+    .txn-bullets li{font-size:.84rem;color:var(--muted);padding-left:14px;position:relative}
+    .txn-bullets li::before{content:'›';position:absolute;left:0;color:var(--gold)}
 
-    .hero-sub {
-      font-size: 1.05rem;
-      color: var(--muted);
-      max-width: 540px;
-      line-height: 1.75;
-      margin-top: 28px;
-      margin-bottom: 40px;
-      opacity: 0;
-      animation: fadeUp 0.9s 0.5s forwards;
-    }
-    .hero-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      opacity: 0;
-      animation: fadeUp 0.9s 0.65s forwards;
-    }
-    .hero-foot {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-top: 48px;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.8s forwards;
-    }
-    .hero-foot-bar { width: 48px; height: 1px; background: var(--gold); flex-shrink: 0; }
-    .hero-foot span {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.68rem;
-      letter-spacing: 0.15em;
-      color: var(--muted);
-      text-transform: uppercase;
-    }
+    .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2px}
+    .skill-group{background:var(--bg2);padding:30px;border:1px solid var(--muted2);transition:border-color .3s,background .3s}
+    .skill-group:hover{border-color:var(--gold-border);background:var(--bg3)}
+    .skill-group-label{font-family:'DM Mono',monospace;font-size:.66rem;text-transform:uppercase;letter-spacing:.18em;color:var(--gold);margin-bottom:18px}
+    .skill-tags{display:flex;flex-wrap:wrap;gap:8px}
+    .skill-tag{font-family:'DM Mono',monospace;font-size:.73rem;padding:5px 11px;border:1px solid var(--muted2);color:var(--muted);transition:border-color .2s,color .2s}
+    .skill-group:hover .skill-tag{border-color:rgba(201,168,76,.3);color:var(--text)}
 
-    /* HERO RIGHT — stat grid */
-    .hero-right {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      opacity: 0;
-      animation: fadeIn 1s 0.9s forwards;
-    }
-    .hero-stat {
-      border: 1px solid var(--gold-border);
-      padding: 22px 16px;
-      background: var(--gold-dim);
-    }
-    .hero-stat-val {
-      font-family: 'Playfair Display', serif;
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--gold-light);
-      line-height: 1;
-      margin-bottom: 8px;
-    }
-    .hero-stat-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.6rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--muted);
-    }
+    .lead-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px}
+    .lead-card{padding:32px;border:1px solid var(--muted2);background:var(--bg2);position:relative;overflow:hidden;transition:border-color .3s}
+    .lead-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:0;background:var(--gold);transition:height .4s}
+    .lead-card:hover{border-color:var(--gold-border)}.lead-card:hover::before{height:100%}
+    .lead-date{font-family:'DM Mono',monospace;font-size:.66rem;text-transform:uppercase;letter-spacing:.12em;color:var(--gold);margin-bottom:12px}
+    .lead-title{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;margin-bottom:6px;color:var(--white)}
+    .lead-org{font-family:'DM Mono',monospace;font-size:.72rem;color:var(--muted);margin-bottom:14px}
+    .lead-desc{font-size:.9rem;color:var(--muted);line-height:1.65}
 
-    /* BUTTONS */
-    .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 13px 24px;
-      background: var(--gold);
-      color: #0a0a09;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.75rem;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      border: none;
-      text-decoration: none;
-      cursor: none;
-      transition: background 0.25s, transform 0.25s, box-shadow 0.25s;
-    }
-    .btn-primary:hover {
-      background: var(--gold-light);
-      transform: translateY(-2px);
-      box-shadow: 0 12px 40px rgba(201,168,76,0.3);
-    }
-    .btn-ghost {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 23px;
-      background: transparent;
-      color: var(--text);
-      font-family: 'DM Mono', monospace;
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      border: 1px solid var(--muted2);
-      text-decoration: none;
-      cursor: none;
-      transition: border-color 0.25s, color 0.25s, transform 0.25s;
-    }
-    .btn-ghost:hover { border-color: var(--gold); color: var(--gold-light); transform: translateY(-2px); }
+    .cert-list{display:flex;flex-direction:column;max-width:680px}
+    .cert-row{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid var(--muted2);gap:20px}
+    .cert-row:first-child{border-top:1px solid var(--muted2)}
+    .cert-name{font-size:.93rem;color:var(--text)}
+    .cert-badge{font-family:'DM Mono',monospace;font-size:.63rem;text-transform:uppercase;letter-spacing:.12em;padding:4px 10px;border:1px solid;white-space:nowrap}
+    .cert-badge.done{border-color:var(--green);color:var(--green)}.cert-badge.progress{border-color:var(--gold);color:var(--gold)}
 
-    /* ABOUT */
-    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
-    .about-body { font-size: 1.05rem; line-height: 1.85; color: var(--muted); }
-    .about-body strong { color: var(--text); font-weight: 500; }
-    .fact-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 0;
-      border-bottom: 1px solid var(--muted2);
-      gap: 20px;
-    }
-    .fact-row:first-child { border-top: 1px solid var(--muted2); }
-    .fact-key {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--muted);
-      flex-shrink: 0;
-    }
-    .fact-val { font-size: 0.92rem; color: var(--text); text-align: right; }
-    .fact-val.gold { color: var(--gold-light); font-family: 'DM Mono', monospace; }
+    .interests-strip{display:flex;flex-wrap:wrap;gap:10px}
+    .interest-pill{display:flex;align-items:center;gap:8px;padding:10px 18px;border:1px solid var(--muted2);font-size:.88rem;color:var(--muted);transition:border-color .25s,color .25s,transform .25s}
+    .interest-pill:hover{border-color:var(--gold-border);color:var(--text);transform:translateY(-3px)}
 
-    /* EXPERIENCE */
-    .exp-tabs { display: flex; border-bottom: 1px solid var(--muted2); margin-bottom: 48px; }
-    .exp-tab {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--muted);
-      padding: 14px 24px;
-      cursor: none;
-      border: none;
-      background: none;
-      border-bottom: 2px solid transparent;
-      margin-bottom: -1px;
-      transition: color 0.2s, border-color 0.2s;
-    }
-    .exp-tab.active { color: var(--gold-light); border-bottom-color: var(--gold); }
-    .exp-tab:hover  { color: var(--text); }
-    .exp-panel  { display: none; }
-    .exp-panel.active { display: block; }
-    .exp-item {
-      display: grid;
-      grid-template-columns: 180px 1fr;
-      gap: 40px;
-      padding: 40px 0;
-      border-bottom: 1px solid var(--muted2);
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.5s, transform 0.5s;
-    }
-    .exp-item.visible { opacity: 1; transform: translateY(0); }
-    .exp-date { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--gold); margin-bottom: 6px; }
-    .exp-location { font-family: 'DM Mono', monospace; font-size: 0.66rem; color: var(--muted); }
-    .exp-role { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; margin-bottom: 4px; color: var(--white); }
-    .exp-org { font-family: 'DM Mono', monospace; font-size: 0.78rem; color: var(--gold); letter-spacing: 0.06em; margin-bottom: 20px; }
-    .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-    .exp-bullets li {
-      font-size: 0.93rem; color: var(--muted); line-height: 1.65;
-      padding-left: 20px; position: relative;
-    }
-    .exp-bullets li::before { content: '—'; position: absolute; left: 0; color: var(--gold); font-family: 'DM Mono', monospace; }
-    .exp-bullets li strong { color: var(--text); font-weight: 500; }
-    .txn-block { margin-top: 24px; border-left: 2px solid var(--gold-border); padding-left: 20px; }
-    .txn-title {
-      font-family: 'DM Mono', monospace; font-size: 0.65rem;
-      text-transform: uppercase; letter-spacing: 0.15em;
-      color: var(--gold); margin-bottom: 14px;
-    }
-    .txn-item { margin-bottom: 16px; }
-    .txn-name { font-size: 0.88rem; font-weight: 500; color: var(--text); margin-bottom: 8px; }
-    .txn-bullets { list-style: none; display: flex; flex-direction: column; gap: 6px; }
-    .txn-bullets li { font-size: 0.84rem; color: var(--muted); padding-left: 14px; position: relative; }
-    .txn-bullets li::before { content: '›'; position: absolute; left: 0; color: var(--gold); }
+    /* WRITING */
+    .writing-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:2px}
+    .post-card{background:var(--bg2);border:1px solid var(--muted2);padding:32px;display:flex;flex-direction:column;gap:12px;text-decoration:none;position:relative;overflow:hidden;transition:border-color .3s,background .3s,transform .3s}
+    .post-card::after{content:'↗';position:absolute;top:24px;right:24px;font-size:1rem;color:var(--muted2);transition:color .3s,transform .3s}
+    .post-card:hover{border-color:var(--gold-border);background:var(--bg3);transform:translateY(-4px)}
+    .post-card:hover::after{color:var(--gold);transform:translate(2px,-2px)}
+    .post-date{font-family:'DM Mono',monospace;font-size:.66rem;text-transform:uppercase;letter-spacing:.12em;color:var(--gold)}
+    .post-title{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--white);line-height:1.3;padding-right:20px}
+    .post-excerpt{font-size:.88rem;color:var(--muted);line-height:1.65;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+    .post-card-skeleton{background:var(--bg2);border:1px solid var(--muted2);padding:32px;display:flex;flex-direction:column;gap:12px}
+    .skel{background:linear-gradient(90deg,var(--muted2) 25%,#5a5650 50%,var(--muted2) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:2px}
+    .sk-date{height:10px;width:80px}.sk-t1{height:18px;width:85%}.sk-t2{height:18px;width:60%}.sk-b{height:11px;width:100%}.sk-b2{height:11px;width:88%}.sk-b3{height:11px;width:70%}
+    @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+    .writing-sublink{margin-top:28px;display:flex;align-items:center;gap:16px}
+    .writing-sublink-bar{width:32px;height:1px;background:var(--muted2);flex-shrink:0}
+    .writing-sublink span{font-family:'DM Mono',monospace;font-size:.7rem;color:var(--muted);letter-spacing:.1em}
+    .writing-sublink a{font-family:'DM Mono',monospace;font-size:.7rem;color:var(--gold);text-decoration:none;letter-spacing:.1em;transition:color .2s}
+    .writing-sublink a:hover{color:var(--gold-light)}
 
-    /* SKILLS */
-    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2px; }
-    .skill-group {
-      background: var(--bg2); padding: 30px; border: 1px solid var(--muted2);
-      transition: border-color 0.3s, background 0.3s;
-    }
-    .skill-group:hover { border-color: var(--gold-border); background: var(--bg3); }
-    .skill-group-label {
-      font-family: 'DM Mono', monospace; font-size: 0.66rem;
-      text-transform: uppercase; letter-spacing: 0.18em;
-      color: var(--gold); margin-bottom: 18px;
-    }
-    .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-    .skill-tag {
-      font-family: 'DM Mono', monospace; font-size: 0.73rem;
-      padding: 5px 11px; border: 1px solid var(--muted2); color: var(--muted);
-      transition: border-color 0.2s, color 0.2s;
-    }
-    .skill-group:hover .skill-tag { border-color: rgba(201,168,76,0.3); color: var(--text); }
+    #contact{text-align:center}
+    .contact-big{font-size:clamp(1rem,2vw,1.3rem);color:var(--muted);max-width:560px;margin:0 auto 16px;line-height:1.7}
+    .contact-links{display:flex;gap:14px;justify-content:center;margin-top:40px;flex-wrap:wrap}
 
-    /* LEADERSHIP */
-    .lead-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2px; }
-    .lead-card {
-      padding: 32px; border: 1px solid var(--muted2);
-      background: var(--bg2); position: relative; overflow: hidden;
-      transition: border-color 0.3s;
-    }
-    .lead-card::before {
-      content: ''; position: absolute;
-      top: 0; left: 0; width: 3px; height: 0;
-      background: var(--gold); transition: height 0.4s;
-    }
-    .lead-card:hover { border-color: var(--gold-border); }
-    .lead-card:hover::before { height: 100%; }
-    .lead-date { font-family: 'DM Mono', monospace; font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gold); margin-bottom: 12px; }
-    .lead-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; margin-bottom: 6px; color: var(--white); }
-    .lead-org { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--muted); margin-bottom: 14px; }
-    .lead-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.65; }
+    footer{border-top:1px solid var(--muted2);padding:28px 48px;display:flex;justify-content:space-between;align-items:center;max-width:1200px;margin:0 auto}
+    footer span,footer a{font-family:'DM Mono',monospace;font-size:.7rem;color:var(--muted);letter-spacing:.06em;text-decoration:none}
+    footer a:hover{color:var(--gold-light)}.footer-right{display:flex;gap:24px}
 
-    /* CERTS */
-    .cert-list { display: flex; flex-direction: column; max-width: 680px; }
-    .cert-row {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 18px 0; border-bottom: 1px solid var(--muted2); gap: 20px;
-    }
-    .cert-row:first-child { border-top: 1px solid var(--muted2); }
-    .cert-name { font-size: 0.93rem; color: var(--text); }
-    .cert-badge {
-      font-family: 'DM Mono', monospace; font-size: 0.63rem;
-      text-transform: uppercase; letter-spacing: 0.12em;
-      padding: 4px 10px; border: 1px solid; white-space: nowrap;
-    }
-    .cert-badge.done     { border-color: var(--green); color: var(--green); }
-    .cert-badge.progress { border-color: var(--gold);  color: var(--gold);  }
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
-    /* INTERESTS */
-    .interests-strip { display: flex; flex-wrap: wrap; gap: 10px; }
-    .interest-pill {
-      display: flex; align-items: center; gap: 8px;
-      padding: 10px 18px; border: 1px solid var(--muted2);
-      font-size: 0.88rem; color: var(--muted);
-      transition: border-color 0.25s, color 0.25s, transform 0.25s;
+    @media(max-width:960px){
+      #hero{grid-template-columns:1fr;padding-top:140px}
+      .hero-right{grid-template-columns:repeat(3,1fr)}
+      .about-grid{grid-template-columns:1fr;gap:40px}
+      .exp-item{grid-template-columns:1fr;gap:12px}
+      section{padding:80px 24px}
+      nav{padding:16px 24px}
+      footer{flex-direction:column;gap:14px;text-align:center;padding:24px}
     }
-    .interest-pill:hover { border-color: var(--gold-border); color: var(--text); transform: translateY(-3px); }
-
-    /* CONTACT */
-    #contact { text-align: center; }
-    .contact-big {
-      font-size: clamp(1rem, 2vw, 1.3rem); color: var(--muted);
-      max-width: 560px; margin: 0 auto 16px; line-height: 1.7;
-    }
-    .contact-links {
-      display: flex; gap: 14px;
-      justify-content: center; margin-top: 40px; flex-wrap: wrap;
-    }
-
-    /* FOOTER */
-    footer {
-      border-top: 1px solid var(--muted2);
-      padding: 28px 48px;
-      display: flex; justify-content: space-between; align-items: center;
-      max-width: 1200px; margin: 0 auto;
-    }
-    footer span, footer a {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem; color: var(--muted);
-      letter-spacing: 0.06em; text-decoration: none;
-    }
-    footer a:hover { color: var(--gold-light); }
-    .footer-right { display: flex; gap: 24px; }
-
-    /* REVEAL */
-    .reveal {
-      opacity: 0; transform: translateY(28px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(28px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
-
-    /* MOBILE */
-    @media (max-width: 960px) {
-      #hero { grid-template-columns: 1fr; padding-top: 140px; }
-      .hero-right { grid-template-columns: repeat(3, 1fr); }
-      .about-grid { grid-template-columns: 1fr; gap: 40px; }
-      .exp-item { grid-template-columns: 1fr; gap: 12px; }
-      section { padding: 80px 24px; }
-      nav { padding: 16px 24px; }
-      footer { flex-direction: column; gap: 14px; text-align: center; padding: 24px; }
-    }
-    @media (max-width: 600px) {
-      .nav-links { display: none; }
-      .hero-right { grid-template-columns: repeat(2, 1fr); }
-      h2 { font-size: 2rem; }
+    @media(max-width:600px){
+      .nav-links{display:none}
+      .hero-right{grid-template-columns:repeat(2,1fr)}
+      h2{font-size:2rem}
     }
   </style>
 </head>
@@ -515,12 +173,8 @@
   <div id="cursor"></div>
   <div id="cursor-ring"></div>
 
-  <!-- TICKER -->
-  <div class="ticker-wrap" aria-hidden="true">
-    <div class="ticker-inner" id="ticker"></div>
-  </div>
+  <div class="ticker-wrap" aria-hidden="true"><div class="ticker-inner" id="ticker"></div></div>
 
-  <!-- NAV -->
   <nav id="nav">
     <a class="nav-logo" href="#hero">Vishanth Ashok</a>
     <ul class="nav-links">
@@ -528,20 +182,16 @@
       <li><a href="#experience">Experience</a></li>
       <li><a href="#skills">Skills</a></li>
       <li><a href="#leadership">Leadership</a></li>
+      <li><a href="#writing">Writing</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
 
-  <!-- HERO -->
   <section id="hero">
     <div class="hero-left">
       <div class="hero-eyebrow">Economics · Finance · Strategy</div>
       <h1 class="hero-name">Vishanth<br><em>Ashok</em></h1>
-      <p class="hero-sub">
-        Economics candidate at the University of Texas at Austin. Minors in Accounting &amp; Entrepreneurship.
-        Hands-on across private equity, hedge funds, and investment banking — building models,
-        stress-testing assumptions, and turning complexity into conviction.
-      </p>
+      <p class="hero-sub">Economics candidate at the University of Texas at Austin. Minors in Accounting &amp; Entrepreneurship. Hands-on across private equity, hedge funds, and investment banking — building models, stress-testing assumptions, and turning complexity into conviction.</p>
       <div class="hero-actions">
         <a class="btn-primary" href="Ashok Vishanth Resume.pdf" download>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -556,59 +206,27 @@
           LinkedIn
         </a>
       </div>
-      <div class="hero-foot">
-        <div class="hero-foot-bar"></div>
-        <span>University of Texas at Austin · Austin, TX</span>
-      </div>
+      <div class="hero-foot"><div class="hero-foot-bar"></div><span>University of Texas at Austin · Austin, TX</span></div>
     </div>
-
     <div class="hero-right" id="heroGrid">
-      <div class="hero-stat">
-        <div class="hero-stat-val"><span class="count-num" data-target="4">0</span></div>
-        <div class="hero-stat-label">Firms</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-val"><span class="count-num" data-target="30" data-suffix="+">0</span></div>
-        <div class="hero-stat-label">Strategies</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-val"><span class="count-num" data-target="15" data-suffix="+">0</span></div>
-        <div class="hero-stat-label">Diligences</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-val"><span class="count-num" data-target="23" data-suffix="%">0</span></div>
-        <div class="hero-stat-label">Efficiency Gain</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-val"><span class="count-num" data-target="5">0</span></div>
-        <div class="hero-stat-label">Partner Pitches</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-val"><span class="count-num" data-target="2028">0</span></div>
-        <div class="hero-stat-label">Graduation</div>
-      </div>
+      <div class="hero-stat"><div class="hero-stat-val"><span class="count-num" data-target="4">0</span></div><div class="hero-stat-label">Firms</div></div>
+      <div class="hero-stat"><div class="hero-stat-val"><span class="count-num" data-target="30" data-suffix="+">0</span></div><div class="hero-stat-label">Strategies</div></div>
+      <div class="hero-stat"><div class="hero-stat-val"><span class="count-num" data-target="15" data-suffix="+">0</span></div><div class="hero-stat-label">Diligences</div></div>
+      <div class="hero-stat"><div class="hero-stat-val"><span class="count-num" data-target="23" data-suffix="%">0</span></div><div class="hero-stat-label">Efficiency Gain</div></div>
+      <div class="hero-stat"><div class="hero-stat-val"><span class="count-num" data-target="5">0</span></div><div class="hero-stat-label">Partner Pitches</div></div>
+      <div class="hero-stat"><div class="hero-stat-val"><span class="count-num" data-target="2028">0</span></div><div class="hero-stat-label">Graduation</div></div>
     </div>
   </section>
 
   <hr class="divider">
 
-  <!-- ABOUT -->
   <section id="about">
     <div class="section-label reveal">01 — Profile</div>
     <div class="about-grid">
       <div>
         <div class="gold-line reveal"></div>
         <h2 class="reveal">First-principles<br>thinking applied<br>to capital.</h2>
-        <p class="about-body reveal">
-          I'm an <strong>Economics candidate</strong> at the University of Texas at Austin, graduating May 2028,
-          with minors in <strong>Accounting (BEOP)</strong> and <strong>Entrepreneurship</strong>.
-          My background spans digital infrastructure PE, long/short equity, real estate PE, and investment banking —
-          giving me a multi-lens view of how capital flows and compounds.
-          <br><br>
-          Affiliated with the <strong>Kay Bailey Hutchison Energy Center</strong> and the
-          <strong>McCombs Real Estate Center</strong>. I build models with obsessive attention to
-          underlying assumptions, and a refusal to mistake precision for accuracy.
-        </p>
+        <p class="about-body reveal">I'm an <strong>Economics candidate</strong> at the University of Texas at Austin, graduating May 2028, with minors in <strong>Accounting (BEOP)</strong> and <strong>Entrepreneurship</strong>. My background spans digital infrastructure PE, long/short equity, real estate PE, and investment banking — giving me a multi-lens view of how capital flows and compounds.<br><br>Affiliated with the <strong>Kay Bailey Hutchison Energy Center</strong> and the <strong>McCombs Real Estate Center</strong>. I build models with obsessive attention to underlying assumptions, and a refusal to mistake precision for accuracy.</p>
       </div>
       <div class="reveal">
         <div class="fact-row"><span class="fact-key">University</span><span class="fact-val">University of Texas at Austin</span></div>
@@ -616,7 +234,7 @@
         <div class="fact-row"><span class="fact-key">Minors</span><span class="fact-val">Accounting · Entrepreneurship</span></div>
         <div class="fact-row"><span class="fact-key">Graduation</span><span class="fact-val gold">May 2028</span></div>
         <div class="fact-row"><span class="fact-key">Location</span><span class="fact-val">Austin, TX</span></div>
-        <div class="fact-row"><span class="fact-key">Phone</span><span class="fact-val"><a href="tel:2109929068" style="color:var(--gold-light);text-decoration:none;">(210) 992-9068</a></span></div>
+        <div class="fact-row"><span class="fact-key">Phone</span><span class="fact-val"><a href="tel:2109929068" style="color:var(--gold-light);text-decoration:none">(210) 992-9068</a></span></div>
         <div class="fact-row"><span class="fact-key">Languages</span><span class="fact-val">English · Hindi · Telugu</span></div>
       </div>
     </div>
@@ -624,7 +242,6 @@
 
   <hr class="divider">
 
-  <!-- EXPERIENCE -->
   <section id="experience">
     <div class="section-label reveal">02 — Experience</div>
     <div class="gold-line reveal"></div>
@@ -635,13 +252,9 @@
       <button class="exp-tab" data-tab="hf">Hedge Fund</button>
     </div>
     <div class="exp-panels">
-
       <div class="exp-panel active" id="tab-ib">
         <div class="exp-item">
-          <div>
-            <div class="exp-date">Dec 2025 — Present</div>
-            <div class="exp-location">Remote</div>
-          </div>
+          <div><div class="exp-date">Dec 2025 — Present</div><div class="exp-location">Remote</div></div>
           <div>
             <div class="exp-role">Investment Banking Analyst Intern</div>
             <div class="exp-org">Independent Investment Bankers Corp.</div>
@@ -652,13 +265,9 @@
           </div>
         </div>
       </div>
-
       <div class="exp-panel" id="tab-pe">
         <div class="exp-item">
-          <div>
-            <div class="exp-date">Sep — Dec 2025</div>
-            <div class="exp-location">Austin, TX</div>
-          </div>
+          <div><div class="exp-date">Sep — Dec 2025</div><div class="exp-location">Austin, TX</div></div>
           <div>
             <div class="exp-role">Transactions &amp; Strategy Intern</div>
             <div class="exp-org">Evermount Partners LLC</div>
@@ -670,10 +279,7 @@
           </div>
         </div>
         <div class="exp-item">
-          <div>
-            <div class="exp-date">Jan — Mar 2025</div>
-            <div class="exp-location">Remote</div>
-          </div>
+          <div><div class="exp-date">Jan — Mar 2025</div><div class="exp-location">Remote</div></div>
           <div>
             <div class="exp-role">Private Equity Analyst Intern</div>
             <div class="exp-org">Fund Launch Partners LLC</div>
@@ -700,13 +306,9 @@
           </div>
         </div>
       </div>
-
       <div class="exp-panel" id="tab-hf">
         <div class="exp-item">
-          <div>
-            <div class="exp-date">Mar — Jun 2025</div>
-            <div class="exp-location">Remote</div>
-          </div>
+          <div><div class="exp-date">Mar — Jun 2025</div><div class="exp-location">Remote</div></div>
           <div>
             <div class="exp-role">Investment Analyst Intern</div>
             <div class="exp-org">PNTHR Funds LP</div>
@@ -719,13 +321,11 @@
           </div>
         </div>
       </div>
-
     </div>
   </section>
 
   <hr class="divider">
 
-  <!-- SKILLS -->
   <section id="skills">
     <div class="section-label reveal">03 — Capabilities</div>
     <div class="gold-line reveal"></div>
@@ -733,57 +333,25 @@
     <div class="skills-grid reveal">
       <div class="skill-group">
         <div class="skill-group-label">Finance &amp; Modeling</div>
-        <div class="skill-tags">
-          <span class="skill-tag">Financial Modeling</span>
-          <span class="skill-tag">DCF Analysis</span>
-          <span class="skill-tag">LBO Modeling</span>
-          <span class="skill-tag">Valuation</span>
-          <span class="skill-tag">FP&amp;A</span>
-          <span class="skill-tag">IRR / MOIC</span>
-          <span class="skill-tag">Corporate Budgeting</span>
-        </div>
+        <div class="skill-tags"><span class="skill-tag">Financial Modeling</span><span class="skill-tag">DCF Analysis</span><span class="skill-tag">LBO Modeling</span><span class="skill-tag">Valuation</span><span class="skill-tag">FP&amp;A</span><span class="skill-tag">IRR / MOIC</span><span class="skill-tag">Corporate Budgeting</span></div>
       </div>
       <div class="skill-group">
         <div class="skill-group-label">Technical &amp; Data</div>
-        <div class="skill-tags">
-          <span class="skill-tag">Python (pandas, NumPy)</span>
-          <span class="skill-tag">SQL</span>
-          <span class="skill-tag">R</span>
-          <span class="skill-tag">Power BI</span>
-          <span class="skill-tag">Excel &amp; VBA</span>
-          <span class="skill-tag">Macros</span>
-          <span class="skill-tag">Data Cleaning</span>
-        </div>
+        <div class="skill-tags"><span class="skill-tag">Python (pandas, NumPy)</span><span class="skill-tag">SQL</span><span class="skill-tag">R</span><span class="skill-tag">Power BI</span><span class="skill-tag">Excel &amp; VBA</span><span class="skill-tag">Macros</span><span class="skill-tag">Data Cleaning</span></div>
       </div>
       <div class="skill-group">
         <div class="skill-group-label">Research &amp; Analysis</div>
-        <div class="skill-tags">
-          <span class="skill-tag">Due Diligence</span>
-          <span class="skill-tag">Market Research</span>
-          <span class="skill-tag">Investment Memos</span>
-          <span class="skill-tag">Industry Analysis</span>
-          <span class="skill-tag">SWOT</span>
-          <span class="skill-tag">Growth Strategy</span>
-          <span class="skill-tag">Competitive Intelligence</span>
-        </div>
+        <div class="skill-tags"><span class="skill-tag">Due Diligence</span><span class="skill-tag">Market Research</span><span class="skill-tag">Investment Memos</span><span class="skill-tag">Industry Analysis</span><span class="skill-tag">SWOT</span><span class="skill-tag">Growth Strategy</span><span class="skill-tag">Competitive Intelligence</span></div>
       </div>
       <div class="skill-group">
         <div class="skill-group-label">Platforms &amp; Tools</div>
-        <div class="skill-tags">
-          <span class="skill-tag">Pitchbook (Morningstar)</span>
-          <span class="skill-tag">S&amp;P CapIQ</span>
-          <span class="skill-tag">Moody's CRE</span>
-          <span class="skill-tag">Bloomberg</span>
-          <span class="skill-tag">PowerPoint</span>
-          <span class="skill-tag">AI Research Tools</span>
-        </div>
+        <div class="skill-tags"><span class="skill-tag">Pitchbook (Morningstar)</span><span class="skill-tag">S&amp;P CapIQ</span><span class="skill-tag">Moody's CRE</span><span class="skill-tag">Bloomberg</span><span class="skill-tag">PowerPoint</span><span class="skill-tag">AI Research Tools</span></div>
       </div>
     </div>
   </section>
 
   <hr class="divider">
 
-  <!-- LEADERSHIP -->
   <section id="leadership">
     <div class="section-label reveal">04 — Leadership</div>
     <div class="gold-line reveal"></div>
@@ -808,28 +376,17 @@
         <div class="lead-desc">Competed in Ann Arbor — collaborating on market research, underwriting assumptions, and final investment recommendations.</div>
       </div>
     </div>
-
-    <div style="margin-top:72px;">
+    <div style="margin-top:72px">
       <div class="section-label reveal">Certifications</div>
-      <div class="cert-list reveal" style="margin-top:20px;">
-        <div class="cert-row">
-          <span class="cert-name">Microsoft Office Specialist Certification</span>
-          <span class="cert-badge done">2024</span>
-        </div>
-        <div class="cert-row">
-          <span class="cert-name">WSP Financial Modelling</span>
-          <span class="cert-badge done">Completed</span>
-        </div>
-        <div class="cert-row">
-          <span class="cert-name">Bloomberg Market Concepts (BMC)</span>
-          <span class="cert-badge progress">In Progress</span>
-        </div>
+      <div class="cert-list reveal" style="margin-top:20px">
+        <div class="cert-row"><span class="cert-name">Microsoft Office Specialist Certification</span><span class="cert-badge done">2024</span></div>
+        <div class="cert-row"><span class="cert-name">WSP Financial Modelling</span><span class="cert-badge done">Completed</span></div>
+        <div class="cert-row"><span class="cert-name">Bloomberg Market Concepts (BMC)</span><span class="cert-badge progress">In Progress</span></div>
       </div>
     </div>
-
-    <div style="margin-top:72px;">
+    <div style="margin-top:72px">
       <div class="section-label reveal">Outside the Office</div>
-      <div class="interests-strip reveal" style="margin-top:20px;">
+      <div class="interests-strip reveal" style="margin-top:20px">
         <div class="interest-pill"><span>🍗</span> Nashville Hot Chicken</div>
         <div class="interest-pill"><span>🧋</span> Boba Tea</div>
         <div class="interest-pill"><span>📈</span> Investing</div>
@@ -842,15 +399,30 @@
 
   <hr class="divider">
 
-  <!-- CONTACT -->
+  <section id="writing">
+    <div class="section-label reveal">05 — Writing</div>
+    <div class="gold-line reveal"></div>
+    <h2 class="reveal">Thinking out<br>loud.</h2>
+    <p class="reveal" style="color:var(--muted);font-size:1.05rem;line-height:1.75;max-width:560px;margin-bottom:48px;margin-top:-16px">Essays on investing, markets, and strategy — published on Substack. Updates automatically whenever a new piece goes live.</p>
+    <div class="writing-grid reveal" id="postGrid">
+      <div class="post-card-skeleton"><div class="skel sk-date" style="margin-bottom:4px"></div><div class="skel sk-t1" style="margin-bottom:6px"></div><div class="skel sk-t2" style="margin-bottom:12px"></div><div class="skel sk-b" style="margin-bottom:6px"></div><div class="skel sk-b2" style="margin-bottom:6px"></div><div class="skel sk-b3"></div></div>
+      <div class="post-card-skeleton"><div class="skel sk-date" style="margin-bottom:4px"></div><div class="skel sk-t1" style="margin-bottom:6px"></div><div class="skel sk-t2" style="margin-bottom:12px"></div><div class="skel sk-b" style="margin-bottom:6px"></div><div class="skel sk-b2" style="margin-bottom:6px"></div><div class="skel sk-b3"></div></div>
+      <div class="post-card-skeleton"><div class="skel sk-date" style="margin-bottom:4px"></div><div class="skel sk-t1" style="margin-bottom:6px"></div><div class="skel sk-t2" style="margin-bottom:12px"></div><div class="skel sk-b" style="margin-bottom:6px"></div><div class="skel sk-b2" style="margin-bottom:6px"></div><div class="skel sk-b3"></div></div>
+    </div>
+    <div class="writing-sublink reveal">
+      <div class="writing-sublink-bar"></div>
+      <span>Read all posts on</span>
+      <a href="https://substack.com/@vishanthashok" target="_blank" rel="noopener">substack.com/@vishanthashok ↗</a>
+    </div>
+  </section>
+
+  <hr class="divider">
+
   <section id="contact">
-    <div class="section-label reveal">05 — Contact</div>
-    <div class="gold-line reveal" style="margin:0 auto 32px;"></div>
-    <h2 class="reveal" style="text-align:center;">Let's talk<br><em style="font-family:'Playfair Display',serif;color:var(--gold-light);">capital.</em></h2>
-    <p class="contact-big reveal">
-      Open to conversations about investing, strategy, and long-term thinking.
-      Whether it's an opportunity, a question, or just a good idea — reach out.
-    </p>
+    <div class="section-label reveal">06 — Contact</div>
+    <div class="gold-line reveal" style="margin:0 auto 32px"></div>
+    <h2 class="reveal" style="text-align:center">Let's talk<br><em style="font-family:'Playfair Display',serif;color:var(--gold-light)">capital.</em></h2>
+    <p class="contact-big reveal">Open to conversations about investing, strategy, and long-term thinking. Whether it's an opportunity, a question, or just a good idea — reach out.</p>
     <div class="contact-links reveal">
       <a class="btn-primary" href="mailto:vishanthashok@gmail.com">vishanthashok@gmail.com</a>
       <a class="btn-ghost" href="https://linkedin.com/in/vishanth-ashok" target="_blank">LinkedIn ↗</a>
@@ -863,6 +435,7 @@
     <div class="footer-right">
       <a href="mailto:vishanthashok@gmail.com">Email</a>
       <a href="https://linkedin.com/in/vishanth-ashok" target="_blank">LinkedIn</a>
+      <a href="https://substack.com/@vishanthashok" target="_blank">Substack</a>
     </div>
   </footer>
 
@@ -870,111 +443,124 @@
     // CURSOR
     const cursor = document.getElementById('cursor');
     const ring   = document.getElementById('cursor-ring');
-    let mx = 0, my = 0, rx = 0, ry = 0;
+    let mx=0,my=0,rx=0,ry=0;
     document.addEventListener('mousemove', e => {
-      mx = e.clientX; my = e.clientY;
-      cursor.style.left = mx + 'px';
-      cursor.style.top  = my + 'px';
+      mx=e.clientX; my=e.clientY;
+      cursor.style.left=mx+'px'; cursor.style.top=my+'px';
     });
-    (function animateRing() {
-      rx += (mx - rx) * 0.12;
-      ry += (my - ry) * 0.12;
-      ring.style.left = rx + 'px';
-      ring.style.top  = ry + 'px';
-      requestAnimationFrame(animateRing);
-    })();
+    (function loop(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop)})();
 
     // NAV SCROLL
-    const nav = document.getElementById('nav');
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 60);
-    });
+    const nav=document.getElementById('nav');
+    window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>60));
 
     // TICKER
-    const tickerData = [
-      { label: 'PE',                  val: '+12.4%',        up: true  },
-      { label: 'DATA CENTER DEMAND',  val: 'AI-DRIVEN ▲',   up: true  },
-      { label: 'L/S EQUITY',          val: 'ACTIVE',        up: null  },
-      { label: 'LBO IRR TARGET',      val: '20–25%',        up: true  },
-      { label: 'PYTHON EFFICIENCY',   val: '+23%',          up: true  },
-      { label: 'MULTIFAMILY',         val: 'SCREENING',     up: null  },
-      { label: 'PNTHR FUNDS',         val: '30+ STRATEGIES',up: null  },
-      { label: 'EVERMOUNT',           val: 'DIGITAL INFRA', up: null  },
-      { label: 'UT AUSTIN',           val: 'ECONOMICS',     up: null  },
-      { label: 'GRADUATION',          val: 'MAY 2028',      up: null  },
-      { label: 'PITCHBOOK',           val: 'ACTIVE USER',   up: null  },
-      { label: 'S&P CAPIQ',           val: 'ACTIVE USER',   up: null  },
-      { label: 'DCF + LBO',           val: 'DUAL CERTIFIED',up: true  },
+    const tdata=[
+      {l:'PE',v:'+12.4%',u:true},{l:'DATA CENTER DEMAND',v:'AI-DRIVEN ▲',u:true},
+      {l:'L/S EQUITY',v:'ACTIVE',u:null},{l:'LBO IRR TARGET',v:'20–25%',u:true},
+      {l:'PYTHON EFFICIENCY',v:'+23%',u:true},{l:'MULTIFAMILY',v:'SCREENING',u:null},
+      {l:'PNTHR FUNDS',v:'30+ STRATEGIES',u:null},{l:'EVERMOUNT',v:'DIGITAL INFRA',u:null},
+      {l:'UT AUSTIN',v:'ECONOMICS',u:null},{l:'GRADUATION',v:'MAY 2028',u:null},
+      {l:'PITCHBOOK',v:'ACTIVE USER',u:null},{l:'S&P CAPIQ',v:'ACTIVE USER',u:null},
+      {l:'DCF + LBO',v:'DUAL CERTIFIED',u:true}
     ];
-    const tickerEl = document.getElementById('ticker');
-    let html = '';
-    for (let i = 0; i < 2; i++) {
-      tickerData.forEach(d => {
-        const cls = d.up === true ? 'up' : d.up === false ? 'down' : '';
-        html += `<span class="label">${d.label}</span><span class="${cls}">${d.val}</span><span style="color:var(--muted2);padding:0 8px;">|</span>`;
-      });
-    }
-    tickerEl.innerHTML = html;
+    let th='';
+    for(let i=0;i<2;i++) tdata.forEach(d=>{const c=d.u===true?'up':d.u===false?'down':'';th+=`<span class="label">${d.l}</span><span class="${c}">${d.v}</span><span style="color:var(--muted2);padding:0 8px">|</span>`;});
+    document.getElementById('ticker').innerHTML=th;
 
     // TABS
-    document.querySelectorAll('.exp-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.exp-tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.exp-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.exp-tab').forEach(tab=>{
+      tab.addEventListener('click',()=>{
+        document.querySelectorAll('.exp-tab').forEach(t=>t.classList.remove('active'));
+        document.querySelectorAll('.exp-panel').forEach(p=>p.classList.remove('active'));
         tab.classList.add('active');
-        const panel = document.getElementById('tab-' + tab.dataset.tab);
+        const panel=document.getElementById('tab-'+tab.dataset.tab);
         panel.classList.add('active');
-        panel.querySelectorAll('.exp-item').forEach((item, i) => {
+        panel.querySelectorAll('.exp-item').forEach((item,i)=>{
           item.classList.remove('visible');
-          setTimeout(() => item.classList.add('visible'), i * 100 + 60);
+          setTimeout(()=>item.classList.add('visible'),i*100+60);
         });
       });
     });
 
     // SCROLL REVEAL
-    const revealObs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.reveal').forEach((el, i) => {
-      el.style.transitionDelay = (i % 5) * 0.07 + 's';
-      revealObs.observe(el);
-    });
+    const rObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});},{threshold:.1});
+    document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%5)*.07+'s';rObs.observe(el);});
+    const eObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});},{threshold:.1});
+    document.querySelectorAll('.exp-item').forEach(el=>eObs.observe(el));
+    setTimeout(()=>document.querySelectorAll('#tab-ib .exp-item').forEach((el,i)=>setTimeout(()=>el.classList.add('visible'),i*120)),300);
 
-    // EXP ITEM REVEAL
-    const expObs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.exp-item').forEach(el => expObs.observe(el));
-
-    // Init first tab
-    setTimeout(() => {
-      document.querySelectorAll('#tab-ib .exp-item').forEach((item, i) => {
-        setTimeout(() => item.classList.add('visible'), i * 120);
-      });
-    }, 300);
-
-    // NUMBER COUNTERS
-    function countUp(el) {
-      const target = parseInt(el.dataset.target);
-      const suffix = el.dataset.suffix || '';
-      const dur = 1600;
-      const t0 = performance.now();
-      (function tick(now) {
-        const p = Math.min((now - t0) / dur, 1);
-        const eased = 1 - Math.pow(1 - p, 3);
-        el.textContent = Math.round(target * eased) + suffix;
-        if (p < 1) requestAnimationFrame(tick);
-      })(performance.now());
+    // COUNTERS
+    function countUp(el){
+      const target=parseInt(el.dataset.target),suffix=el.dataset.suffix||'',dur=1600,t0=performance.now();
+      (function tick(now){const p=Math.min((now-t0)/dur,1),e=1-Math.pow(1-p,3);el.textContent=Math.round(target*e)+suffix;if(p<1)requestAnimationFrame(tick);})(performance.now());
     }
-    const cntObs = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.querySelectorAll('.count-num').forEach(countUp);
-          cntObs.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.3 });
-    cntObs.observe(document.getElementById('heroGrid'));
+    const cObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.querySelectorAll('.count-num').forEach(countUp);cObs.unobserve(e.target);}});},{threshold:.3});
+    cObs.observe(document.getElementById('heroGrid'));
+
+    // SUBSTACK POSTS
+    (async function loadPosts(){
+      const FEED = 'https://vishanthashok.substack.com/feed';
+      const PROXY = `https://api.allorigins.win/get?url=${encodeURIComponent(FEED)}`;
+      const grid = document.getElementById('postGrid');
+
+      function fmtDate(s){
+        return new Date(s).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+      }
+      function strip(h){
+        const d=document.createElement('div'); d.innerHTML=h;
+        return d.textContent||d.innerText||'';
+      }
+      function noPostsMsg(msg){
+        grid.innerHTML=`
+          <div style="grid-column:1/-1;padding:64px 0;text-align:center;display:flex;flex-direction:column;align-items:center;gap:16px">
+            <p style="font-family:'DM Mono',monospace;font-size:.8rem;color:var(--muted);letter-spacing:.12em">${msg}</p>
+            <a href="https://substack.com/@vishanthashok" target="_blank"
+               style="font-family:'DM Mono',monospace;font-size:.75rem;color:var(--gold);text-decoration:none;letter-spacing:.1em;border:1px solid var(--gold-border);padding:10px 20px;transition:color .2s,border-color .2s"
+               onmouseover="this.style.color='var(--gold-light)';this.style.borderColor='var(--gold)'"
+               onmouseout="this.style.color='var(--gold)';this.style.borderColor='var(--gold-border)'">
+              VISIT SUBSTACK ↗
+            </a>
+          </div>`;
+      }
+
+      try {
+        const res  = await fetch(PROXY);
+        const json = await res.json();
+
+        if (!json.contents) { noPostsMsg('NO POSTS YET — CHECK BACK SOON'); return; }
+
+        const parser = new DOMParser();
+        const xml    = parser.parseFromString(json.contents, 'text/xml');
+        const items  = Array.from(xml.querySelectorAll('item')).slice(0, 6);
+
+        if (!items.length) { noPostsMsg('NO POSTS YET — CHECK BACK SOON'); return; }
+
+        grid.innerHTML = items.map(item => {
+          const title   = item.querySelector('title')?.textContent || '';
+          const link    = item.querySelector('link')?.textContent || '#';
+          const pubDate = item.querySelector('pubDate')?.textContent || '';
+          const desc    = strip(item.querySelector('description')?.textContent || '').slice(0, 160).trim();
+          return `
+            <a class="post-card" href="${link}" target="_blank" rel="noopener" style="opacity:0;transform:translateY(20px)">
+              <div class="post-date">${pubDate ? fmtDate(pubDate) : ''}</div>
+              <div class="post-title">${title}</div>
+              ${desc ? `<div class="post-excerpt">${desc}…</div>` : ''}
+            </a>`;
+        }).join('');
+
+        grid.querySelectorAll('.post-card').forEach((card, i) => {
+          setTimeout(() => {
+            card.style.transition = 'opacity .5s ease, transform .5s ease, border-color .3s, background .3s';
+            card.style.opacity    = '1';
+            card.style.transform  = 'translateY(0)';
+          }, i * 100 + 80);
+        });
+
+      } catch(err) {
+        noPostsMsg('COULDN\'T LOAD POSTS RIGHT NOW');
+      }
+    })();
   </script>
 </body>
 </html>
