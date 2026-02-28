@@ -25,9 +25,7 @@
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     ::selection { background: var(--gold); color: #0a0a09; }
-
     html { scroll-behavior: smooth; }
 
     body {
@@ -38,36 +36,34 @@
       cursor: none;
     }
 
-    /* ── CUSTOM CURSOR ─────────────────────── */
+    /* CURSOR */
     #cursor {
       position: fixed;
-      width: 10px;
-      height: 10px;
+      width: 10px; height: 10px;
       background: var(--gold);
       border-radius: 50%;
       pointer-events: none;
       z-index: 9999;
       transform: translate(-50%,-50%);
-      transition: transform 0.1s, width 0.25s, height 0.25s, background 0.25s;
+      transition: width 0.25s, height 0.25s;
       mix-blend-mode: difference;
     }
     #cursor-ring {
       position: fixed;
-      width: 36px;
-      height: 36px;
+      width: 36px; height: 36px;
       border: 1px solid rgba(201,168,76,0.5);
       border-radius: 50%;
       pointer-events: none;
       z-index: 9998;
       transform: translate(-50%,-50%);
-      transition: transform 0.18s ease, width 0.3s, height 0.3s, border-color 0.3s;
+      transition: width 0.3s, height 0.3s, border-color 0.3s;
     }
-    body:has(a:hover) #cursor, body:has(button:hover) #cursor { width: 20px; height: 20px; }
-    body:has(a:hover) #cursor-ring, body:has(button:hover) #cursor-ring {
-      width: 60px; height: 60px; border-color: var(--gold);
-    }
+    body:has(a:hover) #cursor,
+    body:has(button:hover) #cursor { width: 20px; height: 20px; }
+    body:has(a:hover) #cursor-ring,
+    body:has(button:hover) #cursor-ring { width: 60px; height: 60px; border-color: var(--gold); }
 
-    /* ── TICKER ────────────────────────────── */
+    /* TICKER */
     .ticker-wrap {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -88,48 +84,46 @@
       font-family: 'DM Mono', monospace;
       font-size: 0.72rem;
       color: var(--muted);
-      padding: 0 32px;
+      padding: 0 28px;
       letter-spacing: 0.04em;
     }
-    .ticker-inner span.up { color: var(--green); }
+    .ticker-inner span.up   { color: var(--green); }
     .ticker-inner span.down { color: var(--red); }
     .ticker-inner span.label { color: var(--gold); font-weight: 500; }
     @keyframes ticker {
-      0% { transform: translateX(0); }
+      0%   { transform: translateX(0); }
       100% { transform: translateX(-50%); }
     }
 
-    /* ── NAV ───────────────────────────────── */
+    /* NAV */
     nav {
       position: fixed;
       top: 36px; left: 0; right: 0;
       z-index: 99;
-      padding: 16px 40px;
+      padding: 18px 48px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       transition: background 0.4s, backdrop-filter 0.4s, border-bottom 0.4s;
     }
     nav.scrolled {
-      background: rgba(10,10,9,0.88);
+      background: rgba(10,10,9,0.9);
       backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--gold-border);
     }
     .nav-logo {
       font-family: 'Playfair Display', serif;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: 700;
       color: var(--gold-light);
-      letter-spacing: 0.02em;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+      text-decoration: none;
     }
-    .nav-links {
-      display: flex;
-      gap: 32px;
-      list-style: none;
-    }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
     .nav-links a {
       font-family: 'DM Mono', monospace;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       text-transform: uppercase;
       letter-spacing: 0.12em;
       color: var(--muted);
@@ -150,8 +144,8 @@
     .nav-links a:hover { color: var(--gold-light); }
     .nav-links a:hover::after { transform: scaleX(1); }
 
-    /* ── SECTIONS ──────────────────────────── */
-    section { padding: 120px 40px; max-width: 1160px; margin: 0 auto; }
+    /* SECTIONS */
+    section { padding: 120px 48px; max-width: 1200px; margin: 0 auto; }
     .section-label {
       font-family: 'DM Mono', monospace;
       font-size: 0.7rem;
@@ -168,20 +162,24 @@
       line-height: 1.15;
       margin-bottom: 32px;
     }
+    .gold-line { width: 48px; height: 2px; background: var(--gold); margin-bottom: 32px; }
+    .divider { border: none; border-top: 1px solid var(--muted2); max-width: 1200px; margin: 0 auto; }
 
-    /* ── HERO ──────────────────────────────── */
+    /* HERO — two column layout */
     #hero {
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: 1fr 460px;
+      align-items: center;
+      gap: 60px;
       padding-top: 120px;
-      max-width: 1160px;
+      padding-bottom: 80px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding-left: 40px;
-      padding-right: 40px;
-      position: relative;
+      padding-left: 48px;
+      padding-right: 48px;
     }
+    .hero-left { display: flex; flex-direction: column; }
 
     .hero-eyebrow {
       font-family: 'DM Mono', monospace;
@@ -193,10 +191,9 @@
       opacity: 0;
       animation: fadeUp 0.8s 0.2s forwards;
     }
-
     .hero-name {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(4rem, 9vw, 8rem);
+      font-size: clamp(3.5rem, 7vw, 6.5rem);
       font-weight: 900;
       letter-spacing: -0.04em;
       line-height: 0.95;
@@ -205,46 +202,87 @@
       opacity: 0;
       animation: fadeUp 0.9s 0.35s forwards;
     }
-    .hero-name em {
-      font-style: italic;
-      color: var(--gold-light);
-    }
+    .hero-name em { font-style: italic; color: var(--gold-light); }
 
     .hero-sub {
-      font-family: 'DM Sans', sans-serif;
-      font-size: clamp(1rem, 1.8vw, 1.25rem);
+      font-size: 1.05rem;
       color: var(--muted);
-      max-width: 580px;
-      line-height: 1.7;
+      max-width: 540px;
+      line-height: 1.75;
       margin-top: 28px;
-      margin-bottom: 48px;
+      margin-bottom: 40px;
       opacity: 0;
       animation: fadeUp 0.9s 0.5s forwards;
     }
-
     .hero-actions {
       display: flex;
-      gap: 16px;
+      gap: 12px;
       flex-wrap: wrap;
       opacity: 0;
       animation: fadeUp 0.9s 0.65s forwards;
     }
+    .hero-foot {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 48px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.8s forwards;
+    }
+    .hero-foot-bar { width: 48px; height: 1px; background: var(--gold); flex-shrink: 0; }
+    .hero-foot span {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
 
+    /* HERO RIGHT — stat grid */
+    .hero-right {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      opacity: 0;
+      animation: fadeIn 1s 0.9s forwards;
+    }
+    .hero-stat {
+      border: 1px solid var(--gold-border);
+      padding: 22px 16px;
+      background: var(--gold-dim);
+    }
+    .hero-stat-val {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .hero-stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+
+    /* BUTTONS */
     .btn-primary {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      padding: 14px 28px;
+      gap: 8px;
+      padding: 13px 24px;
       background: var(--gold);
       color: #0a0a09;
       font-family: 'DM Mono', monospace;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       font-weight: 500;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       border: none;
-      cursor: none;
       text-decoration: none;
+      cursor: none;
       transition: background 0.25s, transform 0.25s, box-shadow 0.25s;
     }
     .btn-primary:hover {
@@ -252,140 +290,50 @@
       transform: translateY(-2px);
       box-shadow: 0 12px 40px rgba(201,168,76,0.3);
     }
-
     .btn-ghost {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      padding: 13px 27px;
+      gap: 8px;
+      padding: 12px 23px;
       background: transparent;
       color: var(--text);
       font-family: 'DM Mono', monospace;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       border: 1px solid var(--muted2);
-      cursor: none;
       text-decoration: none;
+      cursor: none;
       transition: border-color 0.25s, color 0.25s, transform 0.25s;
     }
-    .btn-ghost:hover {
-      border-color: var(--gold);
-      color: var(--gold-light);
-      transform: translateY(-2px);
-    }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold-light); transform: translateY(-2px); }
 
-    /* Hero grid decoration */
-    .hero-grid {
-      position: absolute;
-      right: 40px;
-      top: 50%;
-      transform: translateY(-50%);
-      display: grid;
-      grid-template-columns: repeat(3,1fr);
-      gap: 8px;
-      opacity: 0;
-      animation: fadeIn 1.2s 0.8s forwards;
-    }
-    .hero-stat {
-      border: 1px solid var(--gold-border);
-      padding: 20px 24px;
-      background: var(--gold-dim);
-      min-width: 140px;
-    }
-    .hero-stat-val {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.2rem;
-      font-weight: 700;
-      color: var(--gold-light);
-      line-height: 1;
-      margin-bottom: 6px;
-    }
-    .hero-stat-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--muted);
-    }
-    .hero-line {
-      position: absolute;
-      bottom: 48px;
-      left: 40px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      opacity: 0;
-      animation: fadeUp 0.8s 1s forwards;
-    }
-    .hero-line-bar {
-      width: 60px;
-      height: 1px;
-      background: var(--gold);
-    }
-    .hero-line span {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.15em;
-      color: var(--muted);
-      text-transform: uppercase;
-    }
-
-    /* ── DIVIDER ───────────────────────────── */
-    .divider {
-      border: none;
-      border-top: 1px solid var(--muted2);
-      max-width: 1160px;
-      margin: 0 auto;
-    }
-
-    /* ── ABOUT ─────────────────────────────── */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: start;
-    }
-    .about-body {
-      font-size: 1.1rem;
-      line-height: 1.8;
-      color: var(--muted);
-    }
+    /* ABOUT */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+    .about-body { font-size: 1.05rem; line-height: 1.85; color: var(--muted); }
     .about-body strong { color: var(--text); font-weight: 500; }
-    .about-facts {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
     .fact-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 18px 0;
+      padding: 16px 0;
       border-bottom: 1px solid var(--muted2);
+      gap: 20px;
     }
     .fact-row:first-child { border-top: 1px solid var(--muted2); }
     .fact-key {
       font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       text-transform: uppercase;
       letter-spacing: 0.12em;
       color: var(--muted);
+      flex-shrink: 0;
     }
-    .fact-val {
-      font-size: 0.95rem;
-      color: var(--text);
-      text-align: right;
-    }
+    .fact-val { font-size: 0.92rem; color: var(--text); text-align: right; }
     .fact-val.gold { color: var(--gold-light); font-family: 'DM Mono', monospace; }
 
-    /* ── EXPERIENCE ────────────────────────── */
-    .exp-tabs {
-      display: flex;
-      gap: 0;
-      border-bottom: 1px solid var(--muted2);
-      margin-bottom: 48px;
-    }
+    /* EXPERIENCE */
+    .exp-tabs { display: flex; border-bottom: 1px solid var(--muted2); margin-bottom: 48px; }
     .exp-tab {
       font-family: 'DM Mono', monospace;
       font-size: 0.72rem;
@@ -401,16 +349,13 @@
       transition: color 0.2s, border-color 0.2s;
     }
     .exp-tab.active { color: var(--gold-light); border-bottom-color: var(--gold); }
-    .exp-tab:hover { color: var(--text); }
-
-    .exp-panels { position: relative; }
-    .exp-panel { display: none; }
+    .exp-tab:hover  { color: var(--text); }
+    .exp-panel  { display: none; }
     .exp-panel.active { display: block; }
-
     .exp-item {
       display: grid;
-      grid-template-columns: 200px 1fr;
-      gap: 48px;
+      grid-template-columns: 180px 1fr;
+      gap: 40px;
       padding: 40px 0;
       border-bottom: 1px solid var(--muted2);
       opacity: 0;
@@ -418,302 +363,127 @@
       transition: opacity 0.5s, transform 0.5s;
     }
     .exp-item.visible { opacity: 1; transform: translateY(0); }
-
-    .exp-meta {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .exp-date {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      letter-spacing: 0.08em;
-      color: var(--gold);
-    }
-    .exp-location {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.68rem;
-      color: var(--muted);
-      letter-spacing: 0.06em;
-    }
-    .exp-content {}
-    .exp-role {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin-bottom: 4px;
-      color: var(--white);
-    }
-    .exp-org {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.8rem;
-      color: var(--gold);
-      letter-spacing: 0.06em;
-      margin-bottom: 20px;
-    }
-    .exp-bullets {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+    .exp-date { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--gold); margin-bottom: 6px; }
+    .exp-location { font-family: 'DM Mono', monospace; font-size: 0.66rem; color: var(--muted); }
+    .exp-role { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; margin-bottom: 4px; color: var(--white); }
+    .exp-org { font-family: 'DM Mono', monospace; font-size: 0.78rem; color: var(--gold); letter-spacing: 0.06em; margin-bottom: 20px; }
+    .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 10px; }
     .exp-bullets li {
-      font-size: 0.95rem;
-      color: var(--muted);
-      line-height: 1.65;
-      padding-left: 20px;
-      position: relative;
+      font-size: 0.93rem; color: var(--muted); line-height: 1.65;
+      padding-left: 20px; position: relative;
     }
-    .exp-bullets li::before {
-      content: '—';
-      position: absolute;
-      left: 0;
-      color: var(--gold);
-      font-family: 'DM Mono', monospace;
-    }
+    .exp-bullets li::before { content: '—'; position: absolute; left: 0; color: var(--gold); font-family: 'DM Mono', monospace; }
     .exp-bullets li strong { color: var(--text); font-weight: 500; }
-
-    /* transaction highlights */
-    .txn-block {
-      margin-top: 24px;
-      border-left: 2px solid var(--gold-border);
-      padding-left: 20px;
-    }
+    .txn-block { margin-top: 24px; border-left: 2px solid var(--gold-border); padding-left: 20px; }
     .txn-title {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.68rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: var(--gold);
-      margin-bottom: 12px;
+      font-family: 'DM Mono', monospace; font-size: 0.65rem;
+      text-transform: uppercase; letter-spacing: 0.15em;
+      color: var(--gold); margin-bottom: 14px;
     }
-    .txn-item {
-      margin-bottom: 16px;
-    }
-    .txn-name {
-      font-size: 0.88rem;
-      font-weight: 500;
-      color: var(--text);
-      margin-bottom: 6px;
-    }
-    .txn-bullets {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .txn-bullets li {
-      font-size: 0.85rem;
-      color: var(--muted);
-      padding-left: 16px;
-      position: relative;
-    }
-    .txn-bullets li::before {
-      content: '›';
-      position: absolute;
-      left: 0;
-      color: var(--gold);
-    }
+    .txn-item { margin-bottom: 16px; }
+    .txn-name { font-size: 0.88rem; font-weight: 500; color: var(--text); margin-bottom: 8px; }
+    .txn-bullets { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .txn-bullets li { font-size: 0.84rem; color: var(--muted); padding-left: 14px; position: relative; }
+    .txn-bullets li::before { content: '›'; position: absolute; left: 0; color: var(--gold); }
 
-    /* ── SKILLS ────────────────────────────── */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2px;
-    }
+    /* SKILLS */
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2px; }
     .skill-group {
-      background: var(--bg2);
-      padding: 32px;
-      border: 1px solid var(--muted2);
+      background: var(--bg2); padding: 30px; border: 1px solid var(--muted2);
       transition: border-color 0.3s, background 0.3s;
     }
-    .skill-group:hover {
-      border-color: var(--gold-border);
-      background: var(--bg3);
-    }
+    .skill-group:hover { border-color: var(--gold-border); background: var(--bg3); }
     .skill-group-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.68rem;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      color: var(--gold);
-      margin-bottom: 20px;
+      font-family: 'DM Mono', monospace; font-size: 0.66rem;
+      text-transform: uppercase; letter-spacing: 0.18em;
+      color: var(--gold); margin-bottom: 18px;
     }
-    .skill-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
     .skill-tag {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.75rem;
-      padding: 6px 12px;
-      border: 1px solid var(--muted2);
-      color: var(--muted);
-      letter-spacing: 0.04em;
+      font-family: 'DM Mono', monospace; font-size: 0.73rem;
+      padding: 5px 11px; border: 1px solid var(--muted2); color: var(--muted);
       transition: border-color 0.2s, color 0.2s;
     }
-    .skill-group:hover .skill-tag {
-      border-color: rgba(201,168,76,0.3);
-      color: var(--text);
-    }
+    .skill-group:hover .skill-tag { border-color: rgba(201,168,76,0.3); color: var(--text); }
 
-    /* ── LEADERSHIP ────────────────────────── */
-    .lead-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2px;
-    }
+    /* LEADERSHIP */
+    .lead-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2px; }
     .lead-card {
-      padding: 36px;
-      border: 1px solid var(--muted2);
-      background: var(--bg2);
-      position: relative;
-      overflow: hidden;
+      padding: 32px; border: 1px solid var(--muted2);
+      background: var(--bg2); position: relative; overflow: hidden;
       transition: border-color 0.3s;
     }
     .lead-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 3px; height: 0;
-      background: var(--gold);
-      transition: height 0.4s;
+      content: ''; position: absolute;
+      top: 0; left: 0; width: 3px; height: 0;
+      background: var(--gold); transition: height 0.4s;
     }
     .lead-card:hover { border-color: var(--gold-border); }
     .lead-card:hover::before { height: 100%; }
-    .lead-date {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.68rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--gold);
-      margin-bottom: 12px;
-    }
-    .lead-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.2rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-      color: var(--white);
-    }
-    .lead-org {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--muted);
-      margin-bottom: 16px;
-    }
-    .lead-desc {
-      font-size: 0.9rem;
-      color: var(--muted);
-      line-height: 1.65;
-    }
+    .lead-date { font-family: 'DM Mono', monospace; font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gold); margin-bottom: 12px; }
+    .lead-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; margin-bottom: 6px; color: var(--white); }
+    .lead-org { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--muted); margin-bottom: 14px; }
+    .lead-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.65; }
 
-    /* ── CERTIFICATIONS ────────────────────── */
-    .cert-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      max-width: 700px;
-    }
+    /* CERTS */
+    .cert-list { display: flex; flex-direction: column; max-width: 680px; }
     .cert-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 0;
-      border-bottom: 1px solid var(--muted2);
-      gap: 20px;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 18px 0; border-bottom: 1px solid var(--muted2); gap: 20px;
     }
     .cert-row:first-child { border-top: 1px solid var(--muted2); }
-    .cert-name {
-      font-size: 0.95rem;
-      color: var(--text);
-    }
+    .cert-name { font-size: 0.93rem; color: var(--text); }
     .cert-badge {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      padding: 4px 10px;
-      border: 1px solid;
+      font-family: 'DM Mono', monospace; font-size: 0.63rem;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      padding: 4px 10px; border: 1px solid; white-space: nowrap;
     }
-    .cert-badge.done { border-color: var(--green); color: var(--green); }
-    .cert-badge.progress { border-color: var(--gold); color: var(--gold); }
+    .cert-badge.done     { border-color: var(--green); color: var(--green); }
+    .cert-badge.progress { border-color: var(--gold);  color: var(--gold);  }
 
-    /* ── INTERESTS ─────────────────────────── */
-    .interests-strip {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
+    /* INTERESTS */
+    .interests-strip { display: flex; flex-wrap: wrap; gap: 10px; }
     .interest-pill {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 20px;
-      border: 1px solid var(--muted2);
-      font-size: 0.9rem;
-      color: var(--muted);
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 18px; border: 1px solid var(--muted2);
+      font-size: 0.88rem; color: var(--muted);
       transition: border-color 0.25s, color 0.25s, transform 0.25s;
     }
-    .interest-pill:hover {
-      border-color: var(--gold-border);
-      color: var(--text);
-      transform: translateY(-3px);
-    }
-    .interest-icon { font-size: 1.1rem; }
+    .interest-pill:hover { border-color: var(--gold-border); color: var(--text); transform: translateY(-3px); }
 
-    /* ── CONTACT ───────────────────────────── */
-    #contact {
-      text-align: center;
+    /* CONTACT */
+    #contact { text-align: center; }
+    .contact-big {
+      font-size: clamp(1rem, 2vw, 1.3rem); color: var(--muted);
+      max-width: 560px; margin: 0 auto 16px; line-height: 1.7;
     }
     .contact-links {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      margin-top: 40px;
-      flex-wrap: wrap;
-    }
-    .contact-big {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(1rem, 2.5vw, 1.5rem);
-      color: var(--muted);
-      max-width: 600px;
-      margin: 0 auto 16px;
-      line-height: 1.6;
+      display: flex; gap: 14px;
+      justify-content: center; margin-top: 40px; flex-wrap: wrap;
     }
 
-    /* ── FOOTER ────────────────────────────── */
+    /* FOOTER */
     footer {
       border-top: 1px solid var(--muted2);
-      padding: 32px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      max-width: 1160px;
-      margin: 0 auto;
+      padding: 28px 48px;
+      display: flex; justify-content: space-between; align-items: center;
+      max-width: 1200px; margin: 0 auto;
     }
-    footer span {
+    footer span, footer a {
       font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      color: var(--muted);
-      letter-spacing: 0.06em;
-    }
-    footer .footer-right {
-      display: flex;
-      gap: 24px;
-    }
-    footer a {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      color: var(--muted);
-      text-decoration: none;
-      letter-spacing: 0.06em;
-      transition: color 0.2s;
+      font-size: 0.7rem; color: var(--muted);
+      letter-spacing: 0.06em; text-decoration: none;
     }
     footer a:hover { color: var(--gold-light); }
+    .footer-right { display: flex; gap: 24px; }
 
-    /* ── ANIMATIONS ────────────────────────── */
+    /* REVEAL */
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(28px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -723,57 +493,36 @@
       to   { opacity: 1; }
     }
 
-    .reveal {
-      opacity: 0;
-      transform: translateY(32px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* ── MISC ──────────────────────────────── */
-    .gold-line {
-      width: 48px;
-      height: 2px;
-      background: var(--gold);
-      margin-bottom: 32px;
-    }
-
-    /* Number counter */
-    .count-num { display: inline-block; }
-
-    /* ── MOBILE ────────────────────────────── */
-    @media (max-width: 900px) {
+    /* MOBILE */
+    @media (max-width: 960px) {
+      #hero { grid-template-columns: 1fr; padding-top: 140px; }
+      .hero-right { grid-template-columns: repeat(3, 1fr); }
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .exp-item { grid-template-columns: 1fr; gap: 12px; }
       section { padding: 80px 24px; }
       nav { padding: 16px 24px; }
-      .hero-grid { display: none; }
-      .about-grid { grid-template-columns: 1fr; gap: 40px; }
-      .exp-item { grid-template-columns: 1fr; gap: 16px; }
-      .nav-links { gap: 16px; }
-      footer { flex-direction: column; gap: 16px; text-align: center; }
+      footer { flex-direction: column; gap: 14px; text-align: center; padding: 24px; }
     }
     @media (max-width: 600px) {
       .nav-links { display: none; }
+      .hero-right { grid-template-columns: repeat(2, 1fr); }
       h2 { font-size: 2rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- CURSOR -->
   <div id="cursor"></div>
   <div id="cursor-ring"></div>
 
-  <!-- TICKER BAR -->
+  <!-- TICKER -->
   <div class="ticker-wrap" aria-hidden="true">
     <div class="ticker-inner" id="ticker"></div>
   </div>
 
   <!-- NAV -->
   <nav id="nav">
-    <div class="nav-logo">VISHANTH ASHOK</div>
+    <a class="nav-logo" href="#hero">Vishanth Ashok</a>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#experience">Experience</a></li>
@@ -785,32 +534,42 @@
 
   <!-- HERO -->
   <section id="hero">
-    <div class="hero-eyebrow">Economics · Finance · Strategy</div>
-    <h1 class="hero-name">Vishanth<br><em>Ashok</em></h1>
-    <p class="hero-sub">
-      Economics at UT Austin. Minors in Accounting & Entrepreneurship.
-      Hands-on across private equity, hedge funds, and investment banking — building models,
-      stress-testing assumptions, and turning complexity into conviction.
-    </p>
-    <div class="hero-actions">
-      <a class="btn-primary" href="mailto:vishanthashok@gmail.com">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Get in Touch
-      </a>
-      <a class="btn-ghost" href="https://linkedin.com/in/vishanth-ashok" target="_blank">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-        LinkedIn
-      </a>
+    <div class="hero-left">
+      <div class="hero-eyebrow">Economics · Finance · Strategy</div>
+      <h1 class="hero-name">Vishanth<br><em>Ashok</em></h1>
+      <p class="hero-sub">
+        Economics candidate at the University of Texas at Austin. Minors in Accounting &amp; Entrepreneurship.
+        Hands-on across private equity, hedge funds, and investment banking — building models,
+        stress-testing assumptions, and turning complexity into conviction.
+      </p>
+      <div class="hero-actions">
+        <a class="btn-primary" href="Ashok Vishanth Resume.pdf" download>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download Resume
+        </a>
+        <a class="btn-ghost" href="mailto:vishanthashok@gmail.com">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Get in Touch
+        </a>
+        <a class="btn-ghost" href="https://linkedin.com/in/vishanth-ashok" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+      </div>
+      <div class="hero-foot">
+        <div class="hero-foot-bar"></div>
+        <span>University of Texas at Austin · Austin, TX</span>
+      </div>
     </div>
 
-    <div class="hero-grid" id="heroGrid">
+    <div class="hero-right" id="heroGrid">
       <div class="hero-stat">
         <div class="hero-stat-val"><span class="count-num" data-target="4">0</span></div>
         <div class="hero-stat-label">Firms</div>
       </div>
       <div class="hero-stat">
         <div class="hero-stat-val"><span class="count-num" data-target="30" data-suffix="+">0</span></div>
-        <div class="hero-stat-label">Strategies Covered</div>
+        <div class="hero-stat-label">Strategies</div>
       </div>
       <div class="hero-stat">
         <div class="hero-stat-val"><span class="count-num" data-target="15" data-suffix="+">0</span></div>
@@ -822,17 +581,12 @@
       </div>
       <div class="hero-stat">
         <div class="hero-stat-val"><span class="count-num" data-target="5">0</span></div>
-        <div class="hero-stat-label">Pitches to Partners</div>
+        <div class="hero-stat-label">Partner Pitches</div>
       </div>
       <div class="hero-stat">
         <div class="hero-stat-val"><span class="count-num" data-target="2028">0</span></div>
-        <div class="hero-stat-label">Graduation Year</div>
+        <div class="hero-stat-label">Graduation</div>
       </div>
-    </div>
-
-    <div class="hero-line">
-      <div class="hero-line-bar"></div>
-      <span>Austin, TX · University of Texas</span>
     </div>
   </section>
 
@@ -846,45 +600,24 @@
         <div class="gold-line reveal"></div>
         <h2 class="reveal">First-principles<br>thinking applied<br>to capital.</h2>
         <p class="about-body reveal">
-          I'm an <strong>Economics student </strong> at UT Austin, graduating May 2028, with minors in
-          <strong>Accounting (BEOP)</strong> and <strong>Entrepreneurship</strong>.
-          My background spans digital infrastructure PE, long/short equity, real estate PE, and
-          investment banking — giving me a rare multi-lens view of how capital flows and compounds.
+          I'm an <strong>Economics candidate</strong> at the University of Texas at Austin, graduating May 2028,
+          with minors in <strong>Accounting (BEOP)</strong> and <strong>Entrepreneurship</strong>.
+          My background spans digital infrastructure PE, long/short equity, real estate PE, and investment banking —
+          giving me a multi-lens view of how capital flows and compounds.
           <br><br>
-          I'm affiliated with the <strong>Kay Bailey Hutchison Energy Center</strong> and
-          <strong>McCombs Real Estate Center</strong>. I build financial models the way others build theses —
-          with obsessive attention to underlying assumptions, and a refusal to mistake precision for accuracy.
+          Affiliated with the <strong>Kay Bailey Hutchison Energy Center</strong> and the
+          <strong>McCombs Real Estate Center</strong>. I build models with obsessive attention to
+          underlying assumptions, and a refusal to mistake precision for accuracy.
         </p>
       </div>
-      <div class="about-facts reveal">
-        <div class="fact-row">
-          <span class="fact-key">University</span>
-          <span class="fact-val">UT Austin</span>
-        </div>
-        <div class="fact-row">
-          <span class="fact-key">Degree</span>
-          <span class="fact-val">BS Economics</span>
-        </div>
-        <div class="fact-row">
-          <span class="fact-key">Minors</span>
-          <span class="fact-val">Accounting · Entrepreneurship</span>
-        </div>
-        <div class="fact-row">
-          <span class="fact-key">Graduation</span>
-          <span class="fact-val gold">May 2028</span>
-        </div>
-        <div class="fact-row">
-          <span class="fact-key">Location</span>
-          <span class="fact-val">Austin, TX</span>
-        </div>
-        <div class="fact-row">
-          <span class="fact-key">Contact</span>
-          <span class="fact-val"><a href="mailto:vishanthashok@gmail.com" style="color:var(--gold-light); text-decoration:none;">(210) 992-9068</a></span>
-        </div>
-        <div class="fact-row">
-          <span class="fact-key">Languages</span>
-          <span class="fact-val">English · Hindi · Telugu</span>
-        </div>
+      <div class="reveal">
+        <div class="fact-row"><span class="fact-key">University</span><span class="fact-val">University of Texas at Austin</span></div>
+        <div class="fact-row"><span class="fact-key">Degree</span><span class="fact-val">Economics</span></div>
+        <div class="fact-row"><span class="fact-key">Minors</span><span class="fact-val">Accounting · Entrepreneurship</span></div>
+        <div class="fact-row"><span class="fact-key">Graduation</span><span class="fact-val gold">May 2028</span></div>
+        <div class="fact-row"><span class="fact-key">Location</span><span class="fact-val">Austin, TX</span></div>
+        <div class="fact-row"><span class="fact-key">Phone</span><span class="fact-val"><a href="tel:2109929068" style="color:var(--gold-light);text-decoration:none;">(210) 992-9068</a></span></div>
+        <div class="fact-row"><span class="fact-key">Languages</span><span class="fact-val">English · Hindi · Telugu</span></div>
       </div>
     </div>
   </section>
@@ -896,56 +629,52 @@
     <div class="section-label reveal">02 — Experience</div>
     <div class="gold-line reveal"></div>
     <h2 class="reveal">Where I've<br>created value.</h2>
-
     <div class="exp-tabs reveal">
       <button class="exp-tab active" data-tab="ib">Investment Banking</button>
       <button class="exp-tab" data-tab="pe">Private Equity</button>
       <button class="exp-tab" data-tab="hf">Hedge Fund</button>
     </div>
-
     <div class="exp-panels">
 
-      <!-- IB -->
       <div class="exp-panel active" id="tab-ib">
         <div class="exp-item">
-          <div class="exp-meta">
+          <div>
             <div class="exp-date">Dec 2025 — Present</div>
             <div class="exp-location">Remote</div>
           </div>
-          <div class="exp-content">
+          <div>
             <div class="exp-role">Investment Banking Analyst Intern</div>
             <div class="exp-org">Independent Investment Bankers Corp.</div>
             <ul class="exp-bullets">
               <li>Supporting <strong>transaction analysis, valuation work</strong>, and deal materials across middle-market engagements.</li>
-              <li>Assisting senior bankers in producing pitch materials and financial models for M&A and capital raise mandates.</li>
+              <li>Assisting senior bankers in producing pitch materials and financial models for M&amp;A and capital raise mandates.</li>
             </ul>
           </div>
         </div>
       </div>
 
-      <!-- PE -->
       <div class="exp-panel" id="tab-pe">
         <div class="exp-item">
-          <div class="exp-meta">
+          <div>
             <div class="exp-date">Sep — Dec 2025</div>
             <div class="exp-location">Austin, TX</div>
           </div>
-          <div class="exp-content">
-            <div class="exp-role">Transactions & Strategy Intern</div>
+          <div>
+            <div class="exp-role">Transactions &amp; Strategy Intern</div>
             <div class="exp-org">Evermount Partners LLC</div>
             <ul class="exp-bullets">
               <li>Conducted <strong>market and competitive intelligence</strong> for a Texas-based data center operator, benchmarking <strong>15+ regional peers</strong> on pricing strategies and customer concentration.</li>
               <li>Identified key growth opportunities and positioning strategies for <strong>AI-driven demand markets</strong>.</li>
-              <li>Built analytical frameworks on market trends, demand drivers, and operational risks to support investment decision-making — including <strong>scenario modeling</strong> of working capital and balance sheet dynamics for growth, expansion, and GTM strategies.</li>
+              <li>Built analytical frameworks on market trends, demand drivers, and operational risks — including <strong>scenario modeling</strong> of working capital and balance sheet dynamics for growth, expansion, and GTM strategies.</li>
             </ul>
           </div>
         </div>
         <div class="exp-item">
-          <div class="exp-meta">
+          <div>
             <div class="exp-date">Jan — Mar 2025</div>
             <div class="exp-location">Remote</div>
           </div>
-          <div class="exp-content">
+          <div>
             <div class="exp-role">Private Equity Analyst Intern</div>
             <div class="exp-org">Fund Launch Partners LLC</div>
             <ul class="exp-bullets">
@@ -957,7 +686,7 @@
                 <div class="txn-name">$2M Multifamily Real Estate — Potential LBO</div>
                 <ul class="txn-bullets">
                   <li>Organized historical income statements and operating metrics for valuation review from CIM financials.</li>
-                  <li>Researched comparable transactions and market benchmarks for senior team review materials.</li>
+                  <li>Researched comparable transactions and market benchmarks incorporated into internal senior review materials.</li>
                 </ul>
               </div>
               <div class="txn-item">
@@ -972,21 +701,20 @@
         </div>
       </div>
 
-      <!-- HF -->
       <div class="exp-panel" id="tab-hf">
         <div class="exp-item">
-          <div class="exp-meta">
+          <div>
             <div class="exp-date">Mar — Jun 2025</div>
             <div class="exp-location">Remote</div>
           </div>
-          <div class="exp-content">
+          <div>
             <div class="exp-role">Investment Analyst Intern</div>
             <div class="exp-org">PNTHR Funds LP</div>
             <ul class="exp-bullets">
               <li>Streamlined monthly reporting via <strong>Python automation scripts</strong>, reducing data compilation time by <strong>23%</strong>; improved compliance tracking and alpha attribution accuracy.</li>
               <li>Leveraged <strong>SQL</strong> for data extraction and manipulation to support reporting workflows.</li>
               <li>Drafted <strong>investment memos and quarterly portfolio updates</strong> for 30+ discretionary strategies (long/short equities); supported buy/short recommendations using strategic analysis and critical thinking.</li>
-              <li>Conducted preliminary diligence on <strong>15+ private investment ideas</strong> across software, energy, and healthcare verticals; pitched <strong>5 ideas to partners and investors</strong>.</li>
+              <li>Conducted preliminary diligence on <strong>15+ private investment ideas</strong> across software, energy, and healthcare; pitched <strong>5 ideas to partners and investors</strong>.</li>
             </ul>
           </div>
         </div>
@@ -1002,34 +730,33 @@
     <div class="section-label reveal">03 — Capabilities</div>
     <div class="gold-line reveal"></div>
     <h2 class="reveal">Tools of<br>the trade.</h2>
-
     <div class="skills-grid reveal">
       <div class="skill-group">
-        <div class="skill-group-label">Finance & Modeling</div>
+        <div class="skill-group-label">Finance &amp; Modeling</div>
         <div class="skill-tags">
           <span class="skill-tag">Financial Modeling</span>
           <span class="skill-tag">DCF Analysis</span>
           <span class="skill-tag">LBO Modeling</span>
           <span class="skill-tag">Valuation</span>
-          <span class="skill-tag">FP&A</span>
+          <span class="skill-tag">FP&amp;A</span>
           <span class="skill-tag">IRR / MOIC</span>
           <span class="skill-tag">Corporate Budgeting</span>
         </div>
       </div>
       <div class="skill-group">
-        <div class="skill-group-label">Technical & Data</div>
+        <div class="skill-group-label">Technical &amp; Data</div>
         <div class="skill-tags">
           <span class="skill-tag">Python (pandas, NumPy)</span>
           <span class="skill-tag">SQL</span>
           <span class="skill-tag">R</span>
           <span class="skill-tag">Power BI</span>
-          <span class="skill-tag">Excel & VBA</span>
+          <span class="skill-tag">Excel &amp; VBA</span>
           <span class="skill-tag">Macros</span>
           <span class="skill-tag">Data Cleaning</span>
         </div>
       </div>
       <div class="skill-group">
-        <div class="skill-group-label">Research & Analysis</div>
+        <div class="skill-group-label">Research &amp; Analysis</div>
         <div class="skill-tags">
           <span class="skill-tag">Due Diligence</span>
           <span class="skill-tag">Market Research</span>
@@ -1041,10 +768,10 @@
         </div>
       </div>
       <div class="skill-group">
-        <div class="skill-group-label">Platforms & Tools</div>
+        <div class="skill-group-label">Platforms &amp; Tools</div>
         <div class="skill-tags">
           <span class="skill-tag">Pitchbook (Morningstar)</span>
-          <span class="skill-tag">S&P CapIQ</span>
+          <span class="skill-tag">S&amp;P CapIQ</span>
           <span class="skill-tag">Moody's CRE</span>
           <span class="skill-tag">Bloomberg</span>
           <span class="skill-tag">PowerPoint</span>
@@ -1066,32 +793,25 @@
         <div class="lead-date">Jan 2026 — Present</div>
         <div class="lead-title">Student Advisory Council</div>
         <div class="lead-org">Kay Bailey Hutchison Energy Center · UT Austin</div>
-        <div class="lead-desc">
-          Representing UT Austin's energy student community by coordinating industry events, engaging senior energy advisors, and facilitating connections between students and industry professionals.
-        </div>
+        <div class="lead-desc">Representing UT Austin's energy student community by coordinating industry events, engaging senior energy advisors, and facilitating connections between students and professionals.</div>
       </div>
       <div class="lead-card reveal">
         <div class="lead-date">Sep 2025 — Present</div>
         <div class="lead-title">Academic Officer</div>
         <div class="lead-org">Real Estate Center Student Society · UT Austin</div>
-        <div class="lead-desc">
-          Leading workshops teaching real estate financial modeling, market trends, and investment strategy to undergraduate members.
-        </div>
+        <div class="lead-desc">Leading workshops teaching real estate financial modeling, market trends, and investment strategy to undergraduate members.</div>
       </div>
       <div class="lead-card reveal">
         <div class="lead-date">Oct 2025</div>
-        <div class="lead-title">Case Competition</div>
+        <div class="lead-title">Real Estate Case Competition</div>
         <div class="lead-org">Weiser Center for Real Estate · University of Michigan</div>
-        <div class="lead-desc">
-          Competed in a team-based real estate case competition in Ann Arbor — collaborating on market research, underwriting assumptions, and final investment recommendations.
-        </div>
+        <div class="lead-desc">Competed in Ann Arbor — collaborating on market research, underwriting assumptions, and final investment recommendations.</div>
       </div>
     </div>
 
-    <!-- Certs -->
-    <div style="margin-top: 72px;">
-      <div class="section-label reveal" style="margin-bottom: 0;">Certifications</div>
-      <div class="cert-list reveal" style="margin-top: 24px;">
+    <div style="margin-top:72px;">
+      <div class="section-label reveal">Certifications</div>
+      <div class="cert-list reveal" style="margin-top:20px;">
         <div class="cert-row">
           <span class="cert-name">Microsoft Office Specialist Certification</span>
           <span class="cert-badge done">2024</span>
@@ -1107,16 +827,15 @@
       </div>
     </div>
 
-    <!-- Interests -->
-    <div style="margin-top: 72px;">
-      <div class="section-label reveal" style="margin-bottom: 24px;">A Few Other Things</div>
-      <div class="interests-strip reveal">
-        <div class="interest-pill"><span class="interest-icon">🍗</span> Nashville Hot Chicken</div>
-        <div class="interest-pill"><span class="interest-icon">🧋</span> Boba Tea</div>
-        <div class="interest-pill"><span class="interest-icon">📈</span> Investing</div>
-        <div class="interest-pill"><span class="interest-icon">📚</span> The House of Morgan</div>
-        <div class="interest-pill"><span class="interest-icon">🏓</span> Pickleball</div>
-        <div class="interest-pill"><span class="interest-icon">☕</span> Coffee</div>
+    <div style="margin-top:72px;">
+      <div class="section-label reveal">Outside the Office</div>
+      <div class="interests-strip reveal" style="margin-top:20px;">
+        <div class="interest-pill"><span>🍗</span> Nashville Hot Chicken</div>
+        <div class="interest-pill"><span>🧋</span> Boba Tea</div>
+        <div class="interest-pill"><span>📈</span> Investing</div>
+        <div class="interest-pill"><span>📚</span> The House of Morgan</div>
+        <div class="interest-pill"><span>🏓</span> Pickleball</div>
+        <div class="interest-pill"><span>☕</span> Coffee</div>
       </div>
     </div>
   </section>
@@ -1126,11 +845,11 @@
   <!-- CONTACT -->
   <section id="contact">
     <div class="section-label reveal">05 — Contact</div>
-    <div class="gold-line reveal" style="margin: 0 auto 32px;"></div>
-    <h2 class="reveal" style="text-align:center;">Let's talk<br><em style="font-family:'Playfair Display',serif; color:var(--gold-light);">capital.</em></h2>
+    <div class="gold-line reveal" style="margin:0 auto 32px;"></div>
+    <h2 class="reveal" style="text-align:center;">Let's talk<br><em style="font-family:'Playfair Display',serif;color:var(--gold-light);">capital.</em></h2>
     <p class="contact-big reveal">
       Open to conversations about investing, strategy, and long-term thinking.
-      Whether it's an opportunity, a question, or a good recommendation — reach out.
+      Whether it's an opportunity, a question, or just a good idea — reach out.
     </p>
     <div class="contact-links reveal">
       <a class="btn-primary" href="mailto:vishanthashok@gmail.com">vishanthashok@gmail.com</a>
@@ -1148,129 +867,114 @@
   </footer>
 
   <script>
-    // ── CURSOR ──────────────────────────────────────────
+    // CURSOR
     const cursor = document.getElementById('cursor');
-    const ring = document.getElementById('cursor-ring');
+    const ring   = document.getElementById('cursor-ring');
     let mx = 0, my = 0, rx = 0, ry = 0;
-
     document.addEventListener('mousemove', e => {
       mx = e.clientX; my = e.clientY;
       cursor.style.left = mx + 'px';
-      cursor.style.top = my + 'px';
+      cursor.style.top  = my + 'px';
     });
-
-    function animateRing() {
+    (function animateRing() {
       rx += (mx - rx) * 0.12;
       ry += (my - ry) * 0.12;
       ring.style.left = rx + 'px';
-      ring.style.top = ry + 'px';
+      ring.style.top  = ry + 'px';
       requestAnimationFrame(animateRing);
-    }
-    animateRing();
+    })();
 
-    // ── NAV SCROLL ──────────────────────────────────────
+    // NAV SCROLL
     const nav = document.getElementById('nav');
     window.addEventListener('scroll', () => {
       nav.classList.toggle('scrolled', window.scrollY > 60);
     });
 
-    // ── TICKER ─────────────────────────────────────────
+    // TICKER
     const tickerData = [
-      { label: 'PE', val: '+12.4%', up: true },
-      { label: 'DATA CENTER DEMAND', val: 'AI-DRIVEN ▲', up: true },
-      { label: 'L/S EQUITY', val: 'ACTIVE', up: null },
-      { label: 'LBO IRR TARGET', val: '20–25%', up: true },
-      { label: 'PYTHON EFFICIENCY', val: '+23%', up: true },
-      { label: 'MULTIFAMILY', val: 'SCREENING', up: null },
-      { label: 'PNTHR FUNDS', val: '30+ STRATEGIES', up: null },
-      { label: 'EVERMOUNT', val: 'DIGITAL INFRA', up: null },
-      { label: 'UT AUSTIN', val: 'BS ECONOMICS', up: null },
-      { label: 'GRADUATION', val: 'MAY 2028', up: null },
-      { label: 'PITCHBOOK', val: 'ACTIVE USER', up: null },
-      { label: 'S&P CAPIQ', val: 'ACTIVE USER', up: null },
-      { label: 'DCF + LBO', val: 'DUAL CERTIFIED', up: true },
+      { label: 'PE',                  val: '+12.4%',        up: true  },
+      { label: 'DATA CENTER DEMAND',  val: 'AI-DRIVEN ▲',   up: true  },
+      { label: 'L/S EQUITY',          val: 'ACTIVE',        up: null  },
+      { label: 'LBO IRR TARGET',      val: '20–25%',        up: true  },
+      { label: 'PYTHON EFFICIENCY',   val: '+23%',          up: true  },
+      { label: 'MULTIFAMILY',         val: 'SCREENING',     up: null  },
+      { label: 'PNTHR FUNDS',         val: '30+ STRATEGIES',up: null  },
+      { label: 'EVERMOUNT',           val: 'DIGITAL INFRA', up: null  },
+      { label: 'UT AUSTIN',           val: 'ECONOMICS',     up: null  },
+      { label: 'GRADUATION',          val: 'MAY 2028',      up: null  },
+      { label: 'PITCHBOOK',           val: 'ACTIVE USER',   up: null  },
+      { label: 'S&P CAPIQ',           val: 'ACTIVE USER',   up: null  },
+      { label: 'DCF + LBO',           val: 'DUAL CERTIFIED',up: true  },
     ];
-
     const tickerEl = document.getElementById('ticker');
-    const buildTicker = () => {
-      let html = '';
-      for (let rep = 0; rep < 2; rep++) {
-        tickerData.forEach(d => {
-          const cls = d.up === true ? 'up' : d.up === false ? 'down' : '';
-          html += `<span class="label">${d.label}</span><span class="${cls}">${d.val}</span><span style="color:var(--muted2)">|</span>`;
-        });
-      }
-      return html;
-    };
-    tickerEl.innerHTML = buildTicker();
+    let html = '';
+    for (let i = 0; i < 2; i++) {
+      tickerData.forEach(d => {
+        const cls = d.up === true ? 'up' : d.up === false ? 'down' : '';
+        html += `<span class="label">${d.label}</span><span class="${cls}">${d.val}</span><span style="color:var(--muted2);padding:0 8px;">|</span>`;
+      });
+    }
+    tickerEl.innerHTML = html;
 
-    // ── TABS ────────────────────────────────────────────
+    // TABS
     document.querySelectorAll('.exp-tab').forEach(tab => {
       tab.addEventListener('click', () => {
         document.querySelectorAll('.exp-tab').forEach(t => t.classList.remove('active'));
         document.querySelectorAll('.exp-panel').forEach(p => p.classList.remove('active'));
         tab.classList.add('active');
-        document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
-        // trigger animations
-        document.querySelectorAll('.exp-item').forEach(item => {
+        const panel = document.getElementById('tab-' + tab.dataset.tab);
+        panel.classList.add('active');
+        panel.querySelectorAll('.exp-item').forEach((item, i) => {
           item.classList.remove('visible');
-          setTimeout(() => item.classList.add('visible'), 80);
+          setTimeout(() => item.classList.add('visible'), i * 100 + 60);
         });
       });
     });
 
-    // ── INTERSECTION OBSERVER ───────────────────────────
-    const revealEls = document.querySelectorAll('.reveal, .exp-item');
-    const revealObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const delay = entry.target.dataset.delay || 0;
-          setTimeout(() => {
-            entry.target.classList.add('visible');
-          }, delay);
-        }
-      });
-    }, { threshold: 0.12 });
-
-    revealEls.forEach((el, i) => {
-      el.style.transitionDelay = (i % 4) * 0.08 + 's';
-      revealObserver.observe(el);
+    // SCROLL REVEAL
+    const revealObs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach((el, i) => {
+      el.style.transitionDelay = (i % 5) * 0.07 + 's';
+      revealObs.observe(el);
     });
 
-    // ── NUMBER COUNTERS ─────────────────────────────────
-    function animateCount(el) {
+    // EXP ITEM REVEAL
+    const expObs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.exp-item').forEach(el => expObs.observe(el));
+
+    // Init first tab
+    setTimeout(() => {
+      document.querySelectorAll('#tab-ib .exp-item').forEach((item, i) => {
+        setTimeout(() => item.classList.add('visible'), i * 120);
+      });
+    }, 300);
+
+    // NUMBER COUNTERS
+    function countUp(el) {
       const target = parseInt(el.dataset.target);
       const suffix = el.dataset.suffix || '';
-      const duration = 1400;
-      const start = performance.now();
-      const startVal = 0;
-
-      function update(now) {
-        const elapsed = now - start;
-        const progress = Math.min(elapsed / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        el.textContent = Math.round(startVal + (target - startVal) * eased) + suffix;
-        if (progress < 1) requestAnimationFrame(update);
-      }
-      requestAnimationFrame(update);
+      const dur = 1600;
+      const t0 = performance.now();
+      (function tick(now) {
+        const p = Math.min((now - t0) / dur, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(target * eased) + suffix;
+        if (p < 1) requestAnimationFrame(tick);
+      })(performance.now());
     }
-
-    const counterObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.querySelectorAll('.count-num').forEach(animateCount);
-          counterObserver.unobserve(entry.target);
+    const cntObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.querySelectorAll('.count-num').forEach(countUp);
+          cntObs.unobserve(e.target);
         }
       });
     }, { threshold: 0.3 });
-
-    const heroGrid = document.getElementById('heroGrid');
-    if (heroGrid) counterObserver.observe(heroGrid);
-
-    // init first tab items visible
-    document.querySelectorAll('#tab-ib .exp-item').forEach(item => {
-      setTimeout(() => item.classList.add('visible'), 300);
-    });
+    cntObs.observe(document.getElementById('heroGrid'));
   </script>
 </body>
 </html>
