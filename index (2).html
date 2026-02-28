@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vishanth Ashok — Finance & Strategy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0a0a09;
+      --bg2: #111110;
+      --bg3: #1a1a18;
+      --gold: #c9a84c;
+      --gold-light: #e8c97a;
+      --gold-dim: rgba(201,168,76,0.12);
+      --gold-border: rgba(201,168,76,0.25);
+      --text: #e8e4d9;
+      --muted: #7a756a;
+      --muted2: #4a4640;
+      --white: #f5f2eb;
+      --red: #c0392b;
+      --green: #27ae60;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    ::selection { background: var(--gold); color: #0a0a09; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── CUSTOM CURSOR ─────────────────────── */
+    #cursor {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background: var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: transform 0.1s, width 0.25s, height 0.25s, background 0.25s;
+      mix-blend-mode: difference;
+    }
+    #cursor-ring {
+      position: fixed;
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(201,168,76,0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%,-50%);
+      transition: transform 0.18s ease, width 0.3s, height 0.3s, border-color 0.3s;
+    }
+    body:has(a:hover) #cursor, body:has(button:hover) #cursor { width: 20px; height: 20px; }
+    body:has(a:hover) #cursor-ring, body:has(button:hover) #cursor-ring {
+      width: 60px; height: 60px; border-color: var(--gold);
+    }
+
+    /* ── TICKER ────────────────────────────── */
+    .ticker-wrap {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--gold-border);
+      height: 36px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+    .ticker-inner {
+      display: flex;
+      white-space: nowrap;
+      animation: ticker 35s linear infinite;
+    }
+    .ticker-inner span {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      padding: 0 32px;
+      letter-spacing: 0.04em;
+    }
+    .ticker-inner span.up { color: var(--green); }
+    .ticker-inner span.down { color: var(--red); }
+    .ticker-inner span.label { color: var(--gold); font-weight: 500; }
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── NAV ───────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 36px; left: 0; right: 0;
+      z-index: 99;
+      padding: 16px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.4s, backdrop-filter 0.4s, border-bottom 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(10,10,9,0.88);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--gold-border);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      letter-spacing: 0.02em;
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0; right: 0;
+      height: 1px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transition: transform 0.25s;
+      transform-origin: left;
+    }
+    .nav-links a:hover { color: var(--gold-light); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+
+    /* ── SECTIONS ──────────────────────────── */
+    section { padding: 120px 40px; max-width: 1160px; margin: 0 auto; }
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 32px;
+    }
+
+    /* ── HERO ──────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 120px;
+      max-width: 1160px;
+      margin: 0 auto;
+      padding-left: 40px;
+      padding-right: 40px;
+      position: relative;
+    }
+
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
+    }
+
+    .hero-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(4rem, 9vw, 8rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 0.95;
+      color: var(--white);
+      margin-bottom: 16px;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.35s forwards;
+    }
+    .hero-name em {
+      font-style: italic;
+      color: var(--gold-light);
+    }
+
+    .hero-sub {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(1rem, 1.8vw, 1.25rem);
+      color: var(--muted);
+      max-width: 580px;
+      line-height: 1.7;
+      margin-top: 28px;
+      margin-bottom: 48px;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.5s forwards;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.65s forwards;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 28px;
+      background: var(--gold);
+      color: #0a0a09;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: none;
+      cursor: none;
+      text-decoration: none;
+      transition: background 0.25s, transform 0.25s, box-shadow 0.25s;
+    }
+    .btn-primary:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(201,168,76,0.3);
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 27px;
+      background: transparent;
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 1px solid var(--muted2);
+      cursor: none;
+      text-decoration: none;
+      transition: border-color 0.25s, color 0.25s, transform 0.25s;
+    }
+    .btn-ghost:hover {
+      border-color: var(--gold);
+      color: var(--gold-light);
+      transform: translateY(-2px);
+    }
+
+    /* Hero grid decoration */
+    .hero-grid {
+      position: absolute;
+      right: 40px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 8px;
+      opacity: 0;
+      animation: fadeIn 1.2s 0.8s forwards;
+    }
+    .hero-stat {
+      border: 1px solid var(--gold-border);
+      padding: 20px 24px;
+      background: var(--gold-dim);
+      min-width: 140px;
+    }
+    .hero-stat-val {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .hero-stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+    .hero-line {
+      position: absolute;
+      bottom: 48px;
+      left: 40px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      opacity: 0;
+      animation: fadeUp 0.8s 1s forwards;
+    }
+    .hero-line-bar {
+      width: 60px;
+      height: 1px;
+      background: var(--gold);
+    }
+    .hero-line span {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    /* ── DIVIDER ───────────────────────────── */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--muted2);
+      max-width: 1160px;
+      margin: 0 auto;
+    }
+
+    /* ── ABOUT ─────────────────────────────── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .about-body {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: var(--muted);
+    }
+    .about-body strong { color: var(--text); font-weight: 500; }
+    .about-facts {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .fact-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--muted2);
+    }
+    .fact-row:first-child { border-top: 1px solid var(--muted2); }
+    .fact-key {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+    .fact-val {
+      font-size: 0.95rem;
+      color: var(--text);
+      text-align: right;
+    }
+    .fact-val.gold { color: var(--gold-light); font-family: 'DM Mono', monospace; }
+
+    /* ── EXPERIENCE ────────────────────────── */
+    .exp-tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--muted2);
+      margin-bottom: 48px;
+    }
+    .exp-tab {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      padding: 14px 24px;
+      cursor: none;
+      border: none;
+      background: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .exp-tab.active { color: var(--gold-light); border-bottom-color: var(--gold); }
+    .exp-tab:hover { color: var(--text); }
+
+    .exp-panels { position: relative; }
+    .exp-panel { display: none; }
+    .exp-panel.active { display: block; }
+
+    .exp-item {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 48px;
+      padding: 40px 0;
+      border-bottom: 1px solid var(--muted2);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s, transform 0.5s;
+    }
+    .exp-item.visible { opacity: 1; transform: translateY(0); }
+
+    .exp-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .exp-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      color: var(--gold);
+    }
+    .exp-location {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+    .exp-content {}
+    .exp-role {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: var(--white);
+    }
+    .exp-org {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--gold);
+      letter-spacing: 0.06em;
+      margin-bottom: 20px;
+    }
+    .exp-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .exp-bullets li {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.65;
+      padding-left: 20px;
+      position: relative;
+    }
+    .exp-bullets li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+      font-family: 'DM Mono', monospace;
+    }
+    .exp-bullets li strong { color: var(--text); font-weight: 500; }
+
+    /* transaction highlights */
+    .txn-block {
+      margin-top: 24px;
+      border-left: 2px solid var(--gold-border);
+      padding-left: 20px;
+    }
+    .txn-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .txn-item {
+      margin-bottom: 16px;
+    }
+    .txn-name {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .txn-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .txn-bullets li {
+      font-size: 0.85rem;
+      color: var(--muted);
+      padding-left: 16px;
+      position: relative;
+    }
+    .txn-bullets li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+    }
+
+    /* ── SKILLS ────────────────────────────── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2px;
+    }
+    .skill-group {
+      background: var(--bg2);
+      padding: 32px;
+      border: 1px solid var(--muted2);
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .skill-group:hover {
+      border-color: var(--gold-border);
+      background: var(--bg3);
+    }
+    .skill-group-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .skill-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      padding: 6px 12px;
+      border: 1px solid var(--muted2);
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .skill-group:hover .skill-tag {
+      border-color: rgba(201,168,76,0.3);
+      color: var(--text);
+    }
+
+    /* ── LEADERSHIP ────────────────────────── */
+    .lead-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2px;
+    }
+    .lead-card {
+      padding: 36px;
+      border: 1px solid var(--muted2);
+      background: var(--bg2);
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+    .lead-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 0;
+      background: var(--gold);
+      transition: height 0.4s;
+    }
+    .lead-card:hover { border-color: var(--gold-border); }
+    .lead-card:hover::before { height: 100%; }
+    .lead-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .lead-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--white);
+    }
+    .lead-org {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+    .lead-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ── CERTIFICATIONS ────────────────────── */
+    .cert-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      max-width: 700px;
+    }
+    .cert-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--muted2);
+      gap: 20px;
+    }
+    .cert-row:first-child { border-top: 1px solid var(--muted2); }
+    .cert-name {
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+    .cert-badge {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 4px 10px;
+      border: 1px solid;
+    }
+    .cert-badge.done { border-color: var(--green); color: var(--green); }
+    .cert-badge.progress { border-color: var(--gold); color: var(--gold); }
+
+    /* ── INTERESTS ─────────────────────────── */
+    .interests-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .interest-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border: 1px solid var(--muted2);
+      font-size: 0.9rem;
+      color: var(--muted);
+      transition: border-color 0.25s, color 0.25s, transform 0.25s;
+    }
+    .interest-pill:hover {
+      border-color: var(--gold-border);
+      color: var(--text);
+      transform: translateY(-3px);
+    }
+    .interest-icon { font-size: 1.1rem; }
+
+    /* ── CONTACT ───────────────────────────── */
+    #contact {
+      text-align: center;
+    }
+    .contact-links {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+    .contact-big {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0 auto 16px;
+      line-height: 1.6;
+    }
+
+    /* ── FOOTER ────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--muted2);
+      padding: 32px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1160px;
+      margin: 0 auto;
+    }
+    footer span {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+    footer .footer-right {
+      display: flex;
+      gap: 24px;
+    }
+    footer a {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      transition: color 0.2s;
+    }
+    footer a:hover { color: var(--gold-light); }
+
+    /* ── ANIMATIONS ────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── MISC ──────────────────────────────── */
+    .gold-line {
+      width: 48px;
+      height: 2px;
+      background: var(--gold);
+      margin-bottom: 32px;
+    }
+
+    /* Number counter */
+    .count-num { display: inline-block; }
+
+    /* ── MOBILE ────────────────────────────── */
+    @media (max-width: 900px) {
+      section { padding: 80px 24px; }
+      nav { padding: 16px 24px; }
+      .hero-grid { display: none; }
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .exp-item { grid-template-columns: 1fr; gap: 16px; }
+      .nav-links { gap: 16px; }
+      footer { flex-direction: column; gap: 16px; text-align: center; }
+    }
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      h2 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CURSOR -->
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- TICKER BAR -->
+  <div class="ticker-wrap" aria-hidden="true">
+    <div class="ticker-inner" id="ticker"></div>
+  </div>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <div class="nav-logo">V.A.</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#leadership">Leadership</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-eyebrow">Economics · Finance · Strategy</div>
+    <h1 class="hero-name">Vishanth<br><em>Ashok</em></h1>
+    <p class="hero-sub">
+      BS Economics candidate at UT Austin. Minors in Accounting & Entrepreneurship.
+      Hands-on across private equity, hedge funds, and investment banking — building models,
+      stress-testing assumptions, and turning complexity into conviction.
+    </p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="mailto:vishanthashok@gmail.com">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Get in Touch
+      </a>
+      <a class="btn-ghost" href="https://linkedin.com/in/vishanth-ashok" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+    </div>
+
+    <div class="hero-grid" id="heroGrid">
+      <div class="hero-stat">
+        <div class="hero-stat-val"><span class="count-num" data-target="4">0</span></div>
+        <div class="hero-stat-label">Firms</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val"><span class="count-num" data-target="30" data-suffix="+">0</span></div>
+        <div class="hero-stat-label">Strategies Covered</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val"><span class="count-num" data-target="15" data-suffix="+">0</span></div>
+        <div class="hero-stat-label">Diligences</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val"><span class="count-num" data-target="23" data-suffix="%">0</span></div>
+        <div class="hero-stat-label">Efficiency Gain</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val"><span class="count-num" data-target="5">0</span></div>
+        <div class="hero-stat-label">Pitches to Partners</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val"><span class="count-num" data-target="2028">0</span></div>
+        <div class="hero-stat-label">Graduation Year</div>
+      </div>
+    </div>
+
+    <div class="hero-line">
+      <div class="hero-line-bar"></div>
+      <span>Austin, TX · University of Texas</span>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-label reveal">01 — Profile</div>
+    <div class="about-grid">
+      <div>
+        <div class="gold-line reveal"></div>
+        <h2 class="reveal">First-principles<br>thinking applied<br>to capital.</h2>
+        <p class="about-body reveal">
+          I'm a <strong>BS Economics candidate</strong> at UT Austin, graduating May 2028, with minors in
+          <strong>Accounting (BEOP)</strong> and <strong>Entrepreneurship</strong>.
+          My background spans digital infrastructure PE, long/short equity, real estate PE, and
+          investment banking — giving me a rare multi-lens view of how capital flows and compounds.
+          <br><br>
+          I'm affiliated with the <strong>Kay Bailey Hutchison Energy Center</strong> and
+          <strong>McCombs Real Estate Center</strong>. I build financial models the way others build theses —
+          with obsessive attention to underlying assumptions, and a refusal to mistake precision for accuracy.
+        </p>
+      </div>
+      <div class="about-facts reveal">
+        <div class="fact-row">
+          <span class="fact-key">University</span>
+          <span class="fact-val">UT Austin</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-key">Degree</span>
+          <span class="fact-val">BS Economics</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-key">Minors</span>
+          <span class="fact-val">Accounting · Entrepreneurship</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-key">Graduation</span>
+          <span class="fact-val gold">May 2028</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-key">Location</span>
+          <span class="fact-val">Austin, TX</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-key">Contact</span>
+          <span class="fact-val"><a href="mailto:vishanthashok@gmail.com" style="color:var(--gold-light); text-decoration:none;">(210) 992-9068</a></span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-key">Languages</span>
+          <span class="fact-val">English · Hindi · Telugu</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-label reveal">02 — Experience</div>
+    <div class="gold-line reveal"></div>
+    <h2 class="reveal">Where I've<br>created value.</h2>
+
+    <div class="exp-tabs reveal">
+      <button class="exp-tab active" data-tab="ib">Investment Banking</button>
+      <button class="exp-tab" data-tab="pe">Private Equity</button>
+      <button class="exp-tab" data-tab="hf">Hedge Fund</button>
+    </div>
+
+    <div class="exp-panels">
+
+      <!-- IB -->
+      <div class="exp-panel active" id="tab-ib">
+        <div class="exp-item">
+          <div class="exp-meta">
+            <div class="exp-date">Dec 2025 — Present</div>
+            <div class="exp-location">Remote</div>
+          </div>
+          <div class="exp-content">
+            <div class="exp-role">Investment Banking Analyst Intern</div>
+            <div class="exp-org">Independent Investment Bankers Corp.</div>
+            <ul class="exp-bullets">
+              <li>Supporting <strong>transaction analysis, valuation work</strong>, and deal materials across middle-market engagements.</li>
+              <li>Assisting senior bankers in producing pitch materials and financial models for M&A and capital raise mandates.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- PE -->
+      <div class="exp-panel" id="tab-pe">
+        <div class="exp-item">
+          <div class="exp-meta">
+            <div class="exp-date">Sep — Dec 2025</div>
+            <div class="exp-location">Austin, TX</div>
+          </div>
+          <div class="exp-content">
+            <div class="exp-role">Transactions & Strategy Intern</div>
+            <div class="exp-org">Evermount Partners LLC</div>
+            <ul class="exp-bullets">
+              <li>Conducted <strong>market and competitive intelligence</strong> for a Texas-based data center operator, benchmarking <strong>15+ regional peers</strong> on pricing strategies and customer concentration.</li>
+              <li>Identified key growth opportunities and positioning strategies for <strong>AI-driven demand markets</strong>.</li>
+              <li>Built analytical frameworks on market trends, demand drivers, and operational risks to support investment decision-making — including <strong>scenario modeling</strong> of working capital and balance sheet dynamics for growth, expansion, and GTM strategies.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="exp-item">
+          <div class="exp-meta">
+            <div class="exp-date">Jan — Mar 2025</div>
+            <div class="exp-location">Remote</div>
+          </div>
+          <div class="exp-content">
+            <div class="exp-role">Private Equity Analyst Intern</div>
+            <div class="exp-org">Fund Launch Partners LLC</div>
+            <ul class="exp-bullets">
+              <li>Conducted industry research on <strong>U.S. multifamily housing</strong>, summarizing market trends, demand drivers, and risk factors to support initial investment screening.</li>
+            </ul>
+            <div class="txn-block">
+              <div class="txn-title">Selected Transaction Experience</div>
+              <div class="txn-item">
+                <div class="txn-name">$2M Multifamily Real Estate — Potential LBO</div>
+                <ul class="txn-bullets">
+                  <li>Organized historical income statements and operating metrics for valuation review from CIM financials.</li>
+                  <li>Researched comparable transactions and market benchmarks for senior team review materials.</li>
+                </ul>
+              </div>
+              <div class="txn-item">
+                <div class="txn-name">$1.5M Print Media Company — Potential LBO</div>
+                <ul class="txn-bullets">
+                  <li>Reviewed and adjusted LBO model, focusing on operating assumptions, leverage cases, and <strong>IRR/MOIC sensitivities</strong>.</li>
+                  <li>Compiled competitive landscape research including market sizing and comparable valuation metrics.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HF -->
+      <div class="exp-panel" id="tab-hf">
+        <div class="exp-item">
+          <div class="exp-meta">
+            <div class="exp-date">Mar — Jun 2025</div>
+            <div class="exp-location">Remote</div>
+          </div>
+          <div class="exp-content">
+            <div class="exp-role">Investment Analyst Intern</div>
+            <div class="exp-org">PNTHR Funds LP</div>
+            <ul class="exp-bullets">
+              <li>Streamlined monthly reporting via <strong>Python automation scripts</strong>, reducing data compilation time by <strong>23%</strong>; improved compliance tracking and alpha attribution accuracy.</li>
+              <li>Leveraged <strong>SQL</strong> for data extraction and manipulation to support reporting workflows.</li>
+              <li>Drafted <strong>investment memos and quarterly portfolio updates</strong> for 30+ discretionary strategies (long/short equities); supported buy/short recommendations using strategic analysis and critical thinking.</li>
+              <li>Conducted preliminary diligence on <strong>15+ private investment ideas</strong> across software, energy, and healthcare verticals; pitched <strong>5 ideas to partners and investors</strong>.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-label reveal">03 — Capabilities</div>
+    <div class="gold-line reveal"></div>
+    <h2 class="reveal">Tools of<br>the trade.</h2>
+
+    <div class="skills-grid reveal">
+      <div class="skill-group">
+        <div class="skill-group-label">Finance & Modeling</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Financial Modeling</span>
+          <span class="skill-tag">DCF Analysis</span>
+          <span class="skill-tag">LBO Modeling</span>
+          <span class="skill-tag">Valuation</span>
+          <span class="skill-tag">FP&A</span>
+          <span class="skill-tag">IRR / MOIC</span>
+          <span class="skill-tag">Corporate Budgeting</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-label">Technical & Data</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Python (pandas, NumPy)</span>
+          <span class="skill-tag">SQL</span>
+          <span class="skill-tag">R</span>
+          <span class="skill-tag">Power BI</span>
+          <span class="skill-tag">Excel & VBA</span>
+          <span class="skill-tag">Macros</span>
+          <span class="skill-tag">Data Cleaning</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-label">Research & Analysis</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Due Diligence</span>
+          <span class="skill-tag">Market Research</span>
+          <span class="skill-tag">Investment Memos</span>
+          <span class="skill-tag">Industry Analysis</span>
+          <span class="skill-tag">SWOT</span>
+          <span class="skill-tag">Growth Strategy</span>
+          <span class="skill-tag">Competitive Intelligence</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-label">Platforms & Tools</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Pitchbook (Morningstar)</span>
+          <span class="skill-tag">S&P CapIQ</span>
+          <span class="skill-tag">Moody's CRE</span>
+          <span class="skill-tag">Bloomberg</span>
+          <span class="skill-tag">PowerPoint</span>
+          <span class="skill-tag">AI Research Tools</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- LEADERSHIP -->
+  <section id="leadership">
+    <div class="section-label reveal">04 — Leadership</div>
+    <div class="gold-line reveal"></div>
+    <h2 class="reveal">Beyond the<br>spreadsheet.</h2>
+    <div class="lead-grid">
+      <div class="lead-card reveal">
+        <div class="lead-date">Jan 2026 — Present</div>
+        <div class="lead-title">Student Advisory Council</div>
+        <div class="lead-org">Kay Bailey Hutchison Energy Center · UT Austin</div>
+        <div class="lead-desc">
+          Representing UT Austin's energy student community by coordinating industry events, engaging senior energy advisors, and facilitating connections between students and industry professionals.
+        </div>
+      </div>
+      <div class="lead-card reveal">
+        <div class="lead-date">Sep 2025 — Present</div>
+        <div class="lead-title">Academic Officer</div>
+        <div class="lead-org">Real Estate Center Student Society · UT Austin</div>
+        <div class="lead-desc">
+          Leading workshops teaching real estate financial modeling, market trends, and investment strategy to undergraduate members.
+        </div>
+      </div>
+      <div class="lead-card reveal">
+        <div class="lead-date">Oct 2025</div>
+        <div class="lead-title">Case Competition</div>
+        <div class="lead-org">Weiser Center for Real Estate · University of Michigan</div>
+        <div class="lead-desc">
+          Competed in a team-based real estate case competition in Ann Arbor — collaborating on market research, underwriting assumptions, and final investment recommendations.
+        </div>
+      </div>
+    </div>
+
+    <!-- Certs -->
+    <div style="margin-top: 72px;">
+      <div class="section-label reveal" style="margin-bottom: 0;">Certifications</div>
+      <div class="cert-list reveal" style="margin-top: 24px;">
+        <div class="cert-row">
+          <span class="cert-name">Microsoft Office Specialist Certification</span>
+          <span class="cert-badge done">2024</span>
+        </div>
+        <div class="cert-row">
+          <span class="cert-name">WSP Financial Modelling</span>
+          <span class="cert-badge done">Completed</span>
+        </div>
+        <div class="cert-row">
+          <span class="cert-name">Bloomberg Market Concepts (BMC)</span>
+          <span class="cert-badge progress">In Progress</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interests -->
+    <div style="margin-top: 72px;">
+      <div class="section-label reveal" style="margin-bottom: 24px;">A Few Other Things</div>
+      <div class="interests-strip reveal">
+        <div class="interest-pill"><span class="interest-icon">🍗</span> Nashville Hot Chicken</div>
+        <div class="interest-pill"><span class="interest-icon">🧋</span> Boba Tea</div>
+        <div class="interest-pill"><span class="interest-icon">📈</span> Investing</div>
+        <div class="interest-pill"><span class="interest-icon">📚</span> The House of Morgan</div>
+        <div class="interest-pill"><span class="interest-icon">🏓</span> Pickleball</div>
+        <div class="interest-pill"><span class="interest-icon">☕</span> Coffee</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-label reveal">05 — Contact</div>
+    <div class="gold-line reveal" style="margin: 0 auto 32px;"></div>
+    <h2 class="reveal" style="text-align:center;">Let's talk<br><em style="font-family:'Playfair Display',serif; color:var(--gold-light);">capital.</em></h2>
+    <p class="contact-big reveal">
+      Open to conversations about investing, strategy, and long-term thinking.
+      Whether it's an opportunity, a question, or a good recommendation — reach out.
+    </p>
+    <div class="contact-links reveal">
+      <a class="btn-primary" href="mailto:vishanthashok@gmail.com">vishanthashok@gmail.com</a>
+      <a class="btn-ghost" href="https://linkedin.com/in/vishanth-ashok" target="_blank">LinkedIn ↗</a>
+      <a class="btn-ghost" href="tel:2109929068">(210) 992-9068</a>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 Vishanth Ashok · Austin, TX</span>
+    <div class="footer-right">
+      <a href="mailto:vishanthashok@gmail.com">Email</a>
+      <a href="https://linkedin.com/in/vishanth-ashok" target="_blank">LinkedIn</a>
+    </div>
+  </footer>
+
+  <script>
+    // ── CURSOR ──────────────────────────────────────────
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursor-ring');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx + 'px';
+      cursor.style.top = my + 'px';
+    });
+
+    function animateRing() {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px';
+      ring.style.top = ry + 'px';
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    // ── NAV SCROLL ──────────────────────────────────────
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // ── TICKER ─────────────────────────────────────────
+    const tickerData = [
+      { label: 'PE', val: '+12.4%', up: true },
+      { label: 'DATA CENTER DEMAND', val: 'AI-DRIVEN ▲', up: true },
+      { label: 'L/S EQUITY', val: 'ACTIVE', up: null },
+      { label: 'LBO IRR TARGET', val: '20–25%', up: true },
+      { label: 'PYTHON EFFICIENCY', val: '+23%', up: true },
+      { label: 'MULTIFAMILY', val: 'SCREENING', up: null },
+      { label: 'PNTHR FUNDS', val: '30+ STRATEGIES', up: null },
+      { label: 'EVERMOUNT', val: 'DIGITAL INFRA', up: null },
+      { label: 'UT AUSTIN', val: 'BS ECONOMICS', up: null },
+      { label: 'GRADUATION', val: 'MAY 2028', up: null },
+      { label: 'PITCHBOOK', val: 'ACTIVE USER', up: null },
+      { label: 'S&P CAPIQ', val: 'ACTIVE USER', up: null },
+      { label: 'DCF + LBO', val: 'DUAL CERTIFIED', up: true },
+    ];
+
+    const tickerEl = document.getElementById('ticker');
+    const buildTicker = () => {
+      let html = '';
+      for (let rep = 0; rep < 2; rep++) {
+        tickerData.forEach(d => {
+          const cls = d.up === true ? 'up' : d.up === false ? 'down' : '';
+          html += `<span class="label">${d.label}</span><span class="${cls}">${d.val}</span><span style="color:var(--muted2)">|</span>`;
+        });
+      }
+      return html;
+    };
+    tickerEl.innerHTML = buildTicker();
+
+    // ── TABS ────────────────────────────────────────────
+    document.querySelectorAll('.exp-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.exp-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.exp-panel').forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+        // trigger animations
+        document.querySelectorAll('.exp-item').forEach(item => {
+          item.classList.remove('visible');
+          setTimeout(() => item.classList.add('visible'), 80);
+        });
+      });
+    });
+
+    // ── INTERSECTION OBSERVER ───────────────────────────
+    const revealEls = document.querySelectorAll('.reveal, .exp-item');
+    const revealObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const delay = entry.target.dataset.delay || 0;
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, delay);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    revealEls.forEach((el, i) => {
+      el.style.transitionDelay = (i % 4) * 0.08 + 's';
+      revealObserver.observe(el);
+    });
+
+    // ── NUMBER COUNTERS ─────────────────────────────────
+    function animateCount(el) {
+      const target = parseInt(el.dataset.target);
+      const suffix = el.dataset.suffix || '';
+      const duration = 1400;
+      const start = performance.now();
+      const startVal = 0;
+
+      function update(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.round(startVal + (target - startVal) * eased) + suffix;
+        if (progress < 1) requestAnimationFrame(update);
+      }
+      requestAnimationFrame(update);
+    }
+
+    const counterObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.querySelectorAll('.count-num').forEach(animateCount);
+          counterObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    const heroGrid = document.getElementById('heroGrid');
+    if (heroGrid) counterObserver.observe(heroGrid);
+
+    // init first tab items visible
+    document.querySelectorAll('#tab-ib .exp-item').forEach(item => {
+      setTimeout(() => item.classList.add('visible'), 300);
+    });
+  </script>
+</body>
+</html>
